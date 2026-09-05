@@ -1,0 +1,56 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>IMDbPro Exporter</title>
+    <link rel="stylesheet" href="popup.css">
+  </head>
+  <body>
+    <main>
+      <header>
+        <div class="brand">IMDbPro Exporter</div>
+        <span id="state" class="state">Analyse</span>
+      </header>
+
+      <section id="company-tools" class="section-picker">
+        <div class="section-heading">
+          <strong>Sections à exporter</strong>
+          <button id="refresh" type="button" class="text-button">Actualiser</button>
+        </div>
+        <div id="sections" class="sections">
+          <p class="muted">Détection de la page IMDbPro...</p>
+        </div>
+        <div class="selection-actions">
+          <button id="select-all" type="button" class="text-button">Tout cocher</button>
+          <button id="select-none" type="button" class="text-button">Tout décocher</button>
+        </div>
+      </section>
+
+      <section id="project-tools" class="project-card" hidden>
+        <strong id="project-title">Fiche projet</strong>
+        <p class="muted">Le JSON détaillé contient le synopsis, les genres, le statut de production, les crédits avec leurs photos, les sociétés et les images visibles.</p>
+      </section>
+
+      <label id="limit-field">
+        Nombre maximal de projets (0 = tous)
+        <input id="limit" type="number" min="0" max="5000" value="0">
+      </label>
+
+      <button id="start" type="button" disabled>Exporter</button>
+      <button id="cancel" type="button" class="secondary" disabled>Arrêter</button>
+
+      <section class="progress" aria-live="polite">
+        <div class="track"><div id="bar"></div></div>
+        <p id="message">Ouvre une fiche entreprise ou une fiche projet sur IMDbPro.</p>
+      </section>
+
+      <section id="result" class="result" hidden>
+        <strong id="count">Export prêt</strong>
+        <p id="details" class="muted"></p>
+        <button id="download" type="button">Télécharger le JSON</button>
+      </section>
+    </main>
+    <script src="popup.js"></script>
+  </body>
+</html>

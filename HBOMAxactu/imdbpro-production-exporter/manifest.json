@@ -1,0 +1,22 @@
+{
+  "manifest_version": 3,
+  "name": "IMDbPro Production Exporter",
+  "version": "3.0.0",
+  "description": "Exporte les fiches IMDbPro complètes vers un JSON compatible avec HBOMaxActu.",
+  "permissions": ["activeTab", "storage", "downloads", "scripting"],
+  "host_permissions": [
+    "https://pro.imdb.com/*",
+    "https://www.imdb.com/*"
+  ],
+  "action": {
+    "default_title": "Exporter IMDbPro",
+    "default_popup": "popup.html"
+  },
+  "content_scripts": [
+    {
+      "matches": ["https://pro.imdb.com/*"],
+      "js": ["content.js"],
+      "run_at": "document_idle"
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#030405">
+  <meta name="description" content="Quelque chose se prépare autour de HBO, Max et Warner Bros.">
+  <title>QuoiSurHBOMax — Bientôt</title>
+  <link rel="preload" href="assets/launch-hero.png" as="image">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="launch">
+    <img class="backdrop" src="assets/launch-hero.png" alt="">
+    <div class="shade"></div>
+    <div class="grain" aria-hidden="true"></div>
+
+    <header>
+      <a class="brand" href="#" aria-label="QuoiSurHBOMax">
+        <span>QuoiSurHBOMax</span>
+      </a>
+      <span class="status"><i></i> En préparation</span>
+    </header>
+
+    <section class="message">
+      <p class="pretitle">L’univers s’agrandit.</p>
+      <h1>Vous saurez<br>avant tout le monde.</h1>
+      <p class="subtitle">Actualités. Productions. Sorties.</p>
+    </section>
+
+    <section class="notify">
+      <p>Le lancement approche.</p>
+      <form data-signup novalidate>
+        <label class="sr-only" for="email">Votre adresse e-mail</label>
+        <input id="email" name="email" type="email" autocomplete="email" placeholder="Votre adresse e-mail" required>
+        <button type="submit" aria-label="Me prévenir du lancement"><b>Me prévenir</b><span aria-hidden="true">→</span></button>
+      </form>
+      <small data-form-message aria-live="polite">Une notification. Rien de plus.</small>
+    </section>
+
+    <footer>
+      <span>HBO</span><i></i><span>MAX</span><i></i><span>WARNER BROS.</span>
+      <b>BIENTÔT</b>
+    </footer>
+  </main>
+  <script src="script.js"></script>
+</body>
+</html>

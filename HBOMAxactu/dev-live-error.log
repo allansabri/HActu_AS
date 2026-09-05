@@ -1,0 +1,2146 @@
+⚠ Blocked cross-origin request to Next.js dev resource /_next/webpack-hmr from "127.0.0.1".
+Cross-origin access to Next.js dev resources is blocked by default for safety.
+
+To allow this host in development, add it to "allowedDevOrigins" in next.config.js and restart the dev server:
+
+// next.config.js
+module.exports = {
+  allowedDevOrigins: ['127.0.0.1'],
+}
+
+Read more: https://nextjs.org/docs/app/api-reference/config/next-config-js/allowedDevOrigins
+⚠ Found a change in next.config.mjs. Restarting the server to apply the changes...
+Error: Route "/admin/login" used `searchParams.error`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at LoginPage (app\admin\login\page.tsx:10:21)
+   8 |   return (
+   9 |     <main className="mx-auto max-w-7xl px-4 py-12 sm:px-6">
+> 10 |       {searchParams.error === "role" ? (
+     |                     ^
+  11 |         <p className="mx-auto mb-4 max-w-md rounded-md border border-red-300/30 bg-red-500...
+  12 |           Compte connecté, mais rôle admin manquant dans `user_roles`.
+  13 |         </p>
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+[browser] Uncaught Error: Internal Next.js error: Router action dispatched before initialization.
+Cannot specify a "name" prop for a button that specifies a function as a formAction. React needs it to encode which action should be invoked. It will get overridden.
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/admin/ent..." notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_822b0720-03b2-46e2-9010-0bbbf32ee716__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="admin/entr...">
+                                <SegmentTrieNode>
+                                <AdminCompanyPage>
+                                  <AdminShell>
+                                    <main className="min-h-scre...">
+                                      <div
+                                        className="flex min-h-screen rounded-[14px] border border-white/10 bg-[radial-..."
+-                                       bis_skin_checked="1"
+                                      >
+                                        <aside className="hidden w-[...">
+                                          <LinkComponent>
+                                          <nav className="mt-9 space...">
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="space-y-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="space-y-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="space-y-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="space-y-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="space-y-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                          <form action={function signOut} className="mt-10 roun...">
+                                            <div
+                                              className="flex items-center gap-3"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <span>
+                                              <div
+                                                className="min-w-0 flex-1"
+-                                               bis_skin_checked="1"
+                                              >
+                                            ...
+                                        <section className="min-w-0 fl...">
+                                          <header className="flex flex-...">
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                            <div
+                                              className="flex flex-wrap items-center gap-3"
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="mt-6"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <LinkComponent>
+                                            <AdminPanel>
+                                              <section className="rounded-lg...">
+                                                <details>
+                                                  <summary>
+                                                  <div
+                                                    className="mt-5 border-t border-white/10 pt-5"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                                    <ProductionCompanyForm company={{id:"d52db9...", ...}} ...>
+                                                      <form action={function upsertProductionCompany} ...>
+                                                        <input>
+                                                        <div
+                                                          className="grid gap-4 md:grid-cols-3"
+-                                                         bis_skin_checked="1"
+                                                        >
+                                                        <TextAreaField>
+                                                        <div
+                                                          className="rounded-md border border-white/10 p-4"
+-                                                         bis_skin_checked="1"
+                                                        >
+                                                          <div
+                                                            className="mb-4 flex items-center justify-between gap-3"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                          <div
+                                                            className="space-y-4"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+                                                              className="grid gap-3 border-t border-white/10 pt-4 firs..."
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                        ...
+                                            <AdminPanel>
+                                              <section className="rounded-lg...">
+                                                <ProductionCompanySections company={{id:"d52db9...", ...}} ...>
+                                                  <section>
+                                                    <div
+                                                      className="mb-5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <form>
+                                                    <div
+                                                      className="mt-5 space-y-4"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                      <details className="border bor...">
+                                                        <summary className="cursor-poi...">
+                                                          <div
+                                                            className="flex items-center justify-between gap-4"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                            ...
+                                                        <div
+                                                          className="space-y-4 border-t border-white/10 p-4"
+-                                                         bis_skin_checked="1"
+                                                        >
+                                                          <form action={function upsertProductionCompanySection} ...>
+                                                            <input>
+                                                            <input>
+                                                            <label>
+                                                            <label>
+                                                            <button>
+                                                            <button
+                                                              formAction={function deleteProductionCompanySection}
++                                                             name="id"
+-                                                             name="$ACTION_ID_40b193de3de2f8f208a9b0555936224a1b61f1ef7f"
+                                                              value="bad9c70e-8241-485a-8f6b-88a8ac5d6473"
+                                                              className="inline-flex h-11 items-center justify-center ..."
+                                                            >
+                                                          <div
+                                                            className="border border-white/10 bg-black/20 p-4"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+                                                              className="space-y-3"
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                              <details className="border bor..." open={true}>
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                                  <input>
+                                                                  <div
+                                                                    className="mt-3 max-h-64 divide-y divide-white/10 ..."
+-                                                                   bis_skin_checked="1"
+                                                                  >
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                          <div
+                                                            className="flex flex-col gap-3 border border-white/10 bg-b..."
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                            ...
+                                                          <div
+                                                            className="max-h-[460px] divide-y divide-white/10 overflow..."
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                      <details className="border bor...">
+                                                        <summary className="cursor-poi...">
+                                                          <div
+                                                            className="flex items-center justify-between gap-4"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                            ...
+                                                        <div
+                                                          className="space-y-4 border-t border-white/10 p-4"
+-                                                         bis_skin_checked="1"
+                                                        >
+                                                          <form action={function upsertProductionCompanySection} ...>
+                                                            <input>
+                                                            <input>
+                                                            <label>
+                                                            <label>
+                                                            <button>
+                                                            <button
+                                                              formAction={function deleteProductionCompanySection}
++                                                             name="id"
+-                                                             name="$ACTION_ID_40b193de3de2f8f208a9b0555936224a1b61f1ef7f"
+                                                              value="cfb292d0-c0e4-456e-9a57-38290eb6926f"
+                                                              className="inline-flex h-11 items-center justify-center ..."
+                                                            >
+                                                          <div
+                                                            className="border border-white/10 bg-black/20 p-4"
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+                                                              className="space-y-3"
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                              <details className="border bor..." open={true}>
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                                  <input>
+                                                                  <div
+                                                                    className="mt-3 max-h-64 divide-y divide-white/10 ..."
+-                                                                   bis_skin_checked="1"
+                                                                  >
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                                    <div
+                                                                      className="flex items-center justify-between gap..."
+-                                                                     bis_skin_checked="1"
+                                                                    >
+                                                                      <div
+                                                                        className="min-w-0"
+-                                                                       bis_skin_checked="1"
+                                                                      >
+                                                                      ...
+                                                              <details className="border bor...">
+                                                                <summary>
+                                                                <div
+                                                                  className="border-t border-white/10 p-4"
+-                                                                 bis_skin_checked="1"
+                                                                >
+                                                          <div
+                                                            className="flex flex-col gap-3 border border-white/10 bg-b..."
+-                                                           bis_skin_checked="1"
+                                                          >
+                                                            <div
+-                                                             bis_skin_checked="1"
+                                                            >
+                                                            ...
+                                                          <div
+                                                            className="max-h-[460px] divide-y divide-white/10 overflow..."
+-                                                           bis_skin_checked="1"
+                                                          >
+                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/productions" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_cdc7d8a4-f9a3-4f1c-97f6-59138e46737e__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="production...">
+                                <SegmentTrieNode>
+                                <ProductionsPage>
+                                  <main>
+                                    <section className="border-b b...">
+                                      <div
+                                        className="mx-auto max-w-[1520px] px-4 py-10 sm:px-6"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+-                                           bis_skin_checked="1"
+                                          >
+                                          <ViewTabs>
+                                            <div
+                                              className="inline-flex rounded-[8px] border border-max-cyan/20 bg-black/..."
+-                                             bis_skin_checked="1"
+                                            >
+                                        <div
+                                          className="mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                    <section className="mx-auto ma...">
+                                      <form action="/productions" className="rounded-[1...">
+                                        <input>
+                                        <div
+                                          className="flex flex-col gap-3 sm:flex-row"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex min-w-0 flex-1 items-center gap-3 rounded-[8px] bg-black/2..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                                      <p>
+                                      <div
+                                        className="mt-6 rounded-[10px] border border-max-cyan/25 bg-[linear-gradient(1..."
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                      <div
+                                        className="mt-7 grid gap-6 lg:grid-cols-[340px_1fr]"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <SidebarFilters>
+                                          <aside className="space-y-4 ...">
+                                            <form action="/productions" className="rounded-[1...">
+                                              <input>
+                                              <p>
+                                              <div
+                                                className="mt-3 flex items-center gap-2 rounded-[6px] border border-wh..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 grid gap-3"
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                                            <div
+                                              className="rounded-[10px] border border-white/10 bg-white/[0.035] p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <div
+                                          className="min-w-0"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          <BrowseTable>
+                                            <div
+                                              className="overflow-hidden rounded-[10px] border border-white/10 bg-[#07..."
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="grid grid-cols-[1.2fr_0.55fr_0.7fr_0.95fr_0.55fr_54px] gap-..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/productions" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_15f9c70b-b61e-4cd3-8816-763387c7a083__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="production...">
+                                <SegmentTrieNode>
+                                <ProductionsPage>
+                                  <main>
+                                    <section className="border-b b...">
+                                      <div
+                                        className="mx-auto max-w-[1520px] px-4 py-10 sm:px-6"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+-                                           bis_skin_checked="1"
+                                          >
+                                          <ViewTabs>
+                                            <div
+                                              className="inline-flex rounded-[8px] border border-max-cyan/20 bg-black/..."
+-                                             bis_skin_checked="1"
+                                            >
+                                        <div
+                                          className="mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                    <section className="mx-auto ma...">
+                                      <form action="/productions" className="rounded-[1...">
+                                        <input>
+                                        <div
+                                          className="flex flex-col gap-3 sm:flex-row"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex min-w-0 flex-1 items-center gap-3 rounded-[8px] bg-black/2..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                                      <p>
+                                      <section className="mt-6 borde...">
+                                        <p>
+                                        <div
+                                          className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                      <div
+                                        className="mt-6 rounded-[10px] border border-max-cyan/25 bg-[linear-gradient(1..."
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                      <div
+                                        className="mt-7 grid gap-6 lg:grid-cols-[340px_1fr]"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <SidebarFilters>
+                                          <aside className="space-y-4 ...">
+                                            <form action="/productions" className="rounded-[1...">
+                                              <input>
+                                              <p>
+                                              <div
+                                                className="mt-3 flex items-center gap-2 rounded-[6px] border border-wh..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 grid gap-3"
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                                            <div
+                                              className="rounded-[10px] border-l-4 border-max-cyan bg-max-cyan/10 p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center justify-between"
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+                                              className="rounded-[10px] border border-white/10 bg-white/[0.035] p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <div
+                                          className="min-w-0"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          <BrowseTable>
+                                            <div
+                                              className="overflow-hidden rounded-[10px] border border-white/10 bg-[#07..."
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="grid grid-cols-[1.2fr_0.55fr_0.7fr_0.95fr_0.55fr_54px] gap-..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+Error: Route "/admin/articles/new" used `searchParams.title`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at ArticleForm (components\admin\ArticleForm.tsx:20:35)
+  18 | }) {
+  19 |   const action = article ? updateArticle.bind(null, article.id) : createArticle;
+> 20 |   const title = article?.title || defaults?.title || "";
+     |                                   ^
+  21 |
+  22 |   return (
+  23 |     <form action={action} className="space-y-5 rounded-lg border border-white/10 bg-white/...
+Error: Route "/" used `searchParams.newsletter`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (app\page.tsx:220:50)
+  218 |         <aside className="space-y-5 lg:sticky lg:top-20 lg:h-fit">
+  219 |           <Top10Widget items={top10} />
+> 220 |           <NewsletterSection state={searchParams.newsletter} />
+      |                                                  ^
+  221 |
+  222 |           <section className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
+  223 |             <div className="mb-3 flex items-center justify-between">
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/productions" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_69e6856b-0696-471c-bd17-422df4fbe221__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="production...">
+                                <SegmentTrieNode>
+                                <ProductionsPage>
+                                  <main>
+                                    <section className="border-b b...">
+                                      <div
+                                        className="mx-auto max-w-[1520px] px-4 py-10 sm:px-6"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+-                                           bis_skin_checked="1"
+                                          >
+                                          <ViewTabs>
+                                            <div
+                                              className="inline-flex rounded-[8px] border border-max-cyan/20 bg-black/..."
+-                                             bis_skin_checked="1"
+                                            >
+                                        <div
+                                          className="mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                    <section className="mx-auto ma...">
+                                      <form action="/productions" className="rounded-[1...">
+                                        <input>
+                                        <div
+                                          className="flex flex-col gap-3 sm:flex-row"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex min-w-0 flex-1 items-center gap-3 rounded-[8px] bg-black/2..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                                      <p>
+                                      <section className="mt-6 borde...">
+                                        <p>
+                                        <div
+                                          className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                      <div
+                                        className="mt-6 rounded-[10px] border border-max-cyan/25 bg-[linear-gradient(1..."
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                      <div
+                                        className="mt-7 grid gap-6 lg:grid-cols-[340px_1fr]"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <SidebarFilters>
+                                          <aside className="space-y-4 ...">
+                                            <form action="/productions" className="rounded-[1...">
+                                              <input>
+                                              <p>
+                                              <div
+                                                className="mt-3 flex items-center gap-2 rounded-[6px] border border-wh..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 grid gap-3"
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                                            <div
+                                              className="rounded-[10px] border-l-4 border-max-cyan bg-max-cyan/10 p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center justify-between"
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+                                              className="rounded-[10px] border border-white/10 bg-white/[0.035] p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <div
+                                          className="min-w-0"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          <BrowseTable>
+                                            <div
+                                              className="overflow-hidden rounded-[10px] border border-white/10 bg-[#07..."
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="grid grid-cols-[1.2fr_0.55fr_0.7fr_0.95fr_0.55fr_54px] gap-..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+Error: Route "/" used `searchParams.newsletter`. `searchParams` is a Promise and must be unwrapped with `await` or `React.use()` before accessing its properties. Learn more: https://nextjs.org/docs/messages/sync-dynamic-apis
+    at HomePage (app\page.tsx:220:50)
+  218 |         <aside className="space-y-5 lg:sticky lg:top-20 lg:h-fit">
+  219 |           <Top10Widget items={top10} />
+> 220 |           <NewsletterSection state={searchParams.newsletter} />
+      |                                                  ^
+  221 |
+  222 |           <section className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
+  223 |             <div className="mb-3 flex items-center justify-between">
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_c23c8784-bd0c-46cd-b077-72e8b4db873e__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="page.tsx">
+                                <SegmentTrieNode>
+                                <HomePage>
+                                  <main>
+                                    <TrendBar>
+                                      <section className="border-y b...">
+                                        <div
+                                          className="mx-auto flex max-w-[1320px] items-center gap-3 overflow-x-auto px..."
+-                                         bis_skin_checked="1"
+                                        >
+                                    <div
+                                      className="mx-auto grid max-w-[1320px] gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[min..."
+-                                     bis_skin_checked="1"
+                                    >
+                                      <div
+                                        className="min-w-0 space-y-9"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <section>
+                                          <SectionHeading>
+                                            <div
+                                              className="mb-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                          <ArticleHero>
+                                            <LinkComponent>
+                                              <LinkComponent href="/actualite..." className="group grid...">
+                                                <a className="group grid..." ref={function} onClick={function onClick} ...>
+                                                  <div
+                                                    className="relative min-h-[230px] overflow-hidden bg-white/5 md:mi..."
+-                                                   bis_skin_checked="1"
+                                                  >
+                                                    <img>
+                                                    <div
+                                                      className="absolute inset-0 bg-gradient-to-t from-black/50 via-t..."
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                  <div
+                                                    className="flex flex-col justify-center p-4 md:p-6"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                          <div
+                                            className="mt-4 grid gap-3 md:grid-cols-2"
+-                                           bis_skin_checked="1"
+                                          >
+                                        <section>
+                                          <SectionHeading>
+                                            <div
+                                              className="mb-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="grid gap-3 md:grid-cols-2"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/mo..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href={"/titres/..."} style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/mo..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                        <section>
+                                          <SectionHeading>
+                                            <div
+                                              className="mb-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="grid gap-3 md:grid-cols-2"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                            <MediaLandscapeCard>
+                                              <LinkComponent>
+                                                <LinkComponent href="/titres/se..." style={{...}} ...>
+                                                  <a style={{...}} className="card-revea..." ref={function} ...>
+                                                    <div
+                                                      className="relative min-h-[94px] overflow-hidden bg-white/5"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                                    <div
+                                                      className="min-w-0 p-3"
+-                                                     bis_skin_checked="1"
+                                                    >
+                                        <section>
+                                          <SectionHeading>
+                                            <div
+                                              className="mb-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="grid gap-3 md:grid-cols-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                      <aside className="space-y-5 ...">
+                                        <Top10Widget>
+                                          <aside className="rounded-[8...">
+                                            <div
+                                              className="mb-4 flex items-center justify-between"
+-                                             bis_skin_checked="1"
+                                            >
+                                            <div
+                                              className="space-y-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <TopMiniList>
+                                                <section className="border-t b...">
+                                                  <div
+                                                    className="mb-2.5 flex items-center justify-between"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                                  <div
+                                                    className="space-y-1.5"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                              <TopMiniList>
+                                                <section className="border-t b...">
+                                                  <div
+                                                    className="mb-2.5 flex items-center justify-between"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                                  <div
+                                                    className="space-y-1.5"
+-                                                   bis_skin_checked="1"
+                                                  >
+                                        <section>
+                                        <section className="rounded-[8...">
+                                          <div
+                                            className="mb-3 flex items-center justify-between"
+-                                           bis_skin_checked="1"
+                                          >
+                                          <div
+                                            className="space-y-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <LinkComponent>
+                                              <LinkComponent href="/actualite..." className="group bloc...">
+                                                <a className="group bloc..." ref={function} onClick={function onClick} ...>
+                                                  <iframe>
+                                                  <div
+                                                    className="p-2.5"
+-                                                   bis_skin_checked="1"
+                                                  >
+                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+[browser] A tree hydrated but some attributes of the server rendered HTML didn't match the client properties. This won't be patched up. This can happen if a SSR-ed Client Component used:
+
+- A server/client branch `if (typeof window !== 'undefined')`.
+- Variable input such as `Date.now()` or `Math.random()` which changes each time it's called.
+- Date formatting in a user's locale which doesn't match the server.
+- External changing data without sending a snapshot of it along with the HTML.
+- Invalid HTML tag nesting.
+
+It can also happen if the client has a browser extension installed which messes with the HTML before React loaded.
+
+https://react.dev/link/hydration-mismatch
+
+  ...
+    <HotReload globalError={[...]} webSocket={WebSocket} staticIndicatorState={{pathname:null, ...}}>
+      <AppDevOverlayErrorBoundary globalError={[...]}>
+        <ReplaySsrOnlyErrors>
+        <DevRootHTTPAccessFallbackBoundary>
+          <HTTPAccessFallbackBoundary notFound={<NotAllowedRootHTTPFallbackError>}>
+            <HTTPAccessFallbackErrorBoundary pathname="/productions" notFound={<NotAllowedRootHTTPFallbackError>} ...>
+              <RedirectBoundary>
+                <RedirectErrorBoundary router={{...}}>
+                  <Head headCacheNode={{rsc:{...}, ...}}>
+                    <__next_viewport_boundary__>
+                    <MetadataWrapper>
+                      <div
+                        hidden={true}
+-                       bis_skin_checked="1"
+                      >
+                  <__next_root_layout_boundary__>
+                    <SegmentViewNode type="layout" pagePath="layout.tsx">
+                      <SegmentTrieNode>
+                      <link>
+                      <script>
+                      <script>
+                      <RootLayout>
+                        <html lang="fr">
+                          <body
+-                           __processed_68191880-29e0-4a91-ae07-67b6b235f7ae__="true"
+-                           bis_register="W3sibWFzdGVyIjp0cnVlLCJleHRlbnNpb25JZCI6ImVwcGlvY2VtaG1ubGJoanBsY2drb2ZjaWll..."
+                          >
+                            <SiteHeader>
+                              <header className="sticky top...">
+                                <div
+                                  className="mx-auto flex max-w-[1500px] items-center gap-4 px-4 py-2 sm:px-6"
+-                                 bis_skin_checked="1"
+                                >
+                                ...
+                            ...
+                              <SegmentViewNode type="page" pagePath="production...">
+                                <SegmentTrieNode>
+                                <ProductionsPage>
+                                  <main>
+                                    <section className="border-b b...">
+                                      <div
+                                        className="mx-auto max-w-[1520px] px-4 py-10 sm:px-6"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-6 lg:flex-row lg:items-start lg:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+-                                           bis_skin_checked="1"
+                                          >
+                                          <ViewTabs>
+                                            <div
+                                              className="inline-flex rounded-[8px] border border-max-cyan/20 bg-black/..."
+-                                             bis_skin_checked="1"
+                                            >
+                                        <div
+                                          className="mt-8 grid gap-5 border-t border-white/10 pt-6 sm:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                          <div
+                                            className="flex items-center gap-3"
+-                                           bis_skin_checked="1"
+                                          >
+                                            <span>
+                                            <div
+-                                             bis_skin_checked="1"
+                                            >
+                                    <section className="mx-auto ma...">
+                                      <form action="/productions" className="rounded-[1...">
+                                        <input>
+                                        <div
+                                          className="flex flex-col gap-3 sm:flex-row"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="flex min-w-0 flex-1 items-center gap-3 rounded-[8px] bg-black/2..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          ...
+                                      <p>
+                                      <section className="mt-6 borde...">
+                                        <p>
+                                        <div
+                                          className="mt-4 grid gap-3 md:grid-cols-2 xl:grid-cols-3"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                          <LinkComponent>
+                                            <LinkComponent href="/productio..." className="flex items...">
+                                              <a className="flex items..." ref={function} onClick={function onClick} ...>
+                                                <div
+                                                  className="flex h-12 w-12 items-center justify-center bg-white/8 tex..."
+-                                                 bis_skin_checked="1"
+                                                >
++                                                 H
+                                                <div
+-                                                 bis_skin_checked="1"
+                                                >
+                                      <div
+                                        className="mt-6 rounded-[10px] border border-max-cyan/25 bg-[linear-gradient(1..."
+-                                       bis_skin_checked="1"
+                                      >
+                                        <div
+                                          className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between"
+-                                         bis_skin_checked="1"
+                                        >
+                                      <div
+                                        className="mt-7 grid gap-6 lg:grid-cols-[340px_1fr]"
+-                                       bis_skin_checked="1"
+                                      >
+                                        <SidebarFilters>
+                                          <aside className="space-y-4 ...">
+                                            <form action="/productions" className="rounded-[1...">
+                                              <input>
+                                              <p>
+                                              <div
+                                                className="mt-3 flex items-center gap-2 rounded-[6px] border border-wh..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 grid gap-3"
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                                            <div
+                                              className="rounded-[10px] border-l-4 border-max-cyan bg-max-cyan/10 p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="flex items-center justify-between"
+-                                               bis_skin_checked="1"
+                                              >
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                            <div
+                                              className="rounded-[10px] border border-white/10 bg-white/[0.035] p-4"
+-                                             bis_skin_checked="1"
+                                            >
+                                              <p>
+                                              <div
+                                                className="mt-3 flex flex-wrap gap-2"
+-                                               bis_skin_checked="1"
+                                              >
+                                        <div
+                                          className="min-w-0"
+-                                         bis_skin_checked="1"
+                                        >
+                                          <div
+                                            className="mb-4 flex flex-col gap-3 md:flex-row md:items-center md:justify..."
+-                                           bis_skin_checked="1"
+                                          >
+                                          <BrowseTable>
+                                            <div
+                                              className="overflow-hidden rounded-[10px] border border-white/10 bg-[#07..."
+-                                             bis_skin_checked="1"
+                                            >
+                                              <div
+                                                className="grid grid-cols-[1.2fr_0.55fr_0.7fr_0.95fr_0.55fr_54px] gap-..."
+-                                               bis_skin_checked="1"
+                                              >
+                                              ...
+                            <SiteFooter>
+                              <footer className="mt-12 bord...">
+                                <div
+                                  className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]"
+-                                 bis_skin_checked="1"
+                                >
+                                  <div
+-                                   bis_skin_checked="1"
+                                  >
+                                  <div
+                                    className="grid gap-5 sm:grid-cols-3"
+-                                   bis_skin_checked="1"
+                                  >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                                    <div
+-                                     bis_skin_checked="1"
+                                    >
+                                      <h3>
+                                      <div
+                                        className="mt-2.5 grid gap-2 text-[11px] text-white/42"
+-                                       bis_skin_checked="1"
+                                      >
+                  ...
+ 
+[browser] Detected `scroll-behavior: smooth` on the `<html>` element. To disable smooth scrolling during route transitions, add `data-scroll-behavior="smooth"` to your <html> element. Learn more: https://nextjs.org/docs/messages/missing-data-scroll-behavior
+^C^C

@@ -1,0 +1,32 @@
+
+> quoi-sur-hbo-max@0.1.0 dev
+> next dev
+
+▲ Next.js 16.2.6 (Turbopack)
+- Local:         http://localhost:3000
+- Network:       http://192.168.1.178:3000
+- Environments: .env.local
+✓ Ready in 1291ms
+
+ GET / 200 in 11.5s (next.js: 2.5s, application-code: 9.0s)
+ GET / 200 in 7.7s (next.js: 7ms, application-code: 7.6s)
+○ Compiling /bandes-annonces ...
+ GET /bandes-annonces 200 in 11.0s (next.js: 3.8s, application-code: 7.2s)
+ GET /prochainement 200 in 14.7s (next.js: 114ms, application-code: 14.6s)
+ GET /admin 307 in 27.0s (next.js: 390ms, application-code: 26.6s)
+ GET /admin/login 200 in 200ms (next.js: 75ms, application-code: 125ms)
+ GET /productions 200 in 7.3s (next.js: 130ms, application-code: 7.2s)
+ GET /productions?view=browse&s=&type=HBO+Original&status=&location= 200 in 745ms (next.js: 19ms, application-code: 726ms)
+ GET /productions/demo-prod-house-of-the-dragon 200 in 2.1s (next.js: 1574ms, application-code: 499ms)
+ GET /personnes/1584566 200 in 1038ms (next.js: 734ms, application-code: 304ms)
+ GET / 200 in 1072ms (next.js: 69ms, application-code: 1003ms)
+ GET /admin 200 in 1290ms (next.js: 21ms, application-code: 1269ms)
+ GET /admin/prochainement 200 in 972ms (next.js: 219ms, application-code: 753ms)
+ GET /admin/calendrier 200 in 1206ms (next.js: 210ms, application-code: 996ms)
+ GET /admin/productions 200 in 1309ms (next.js: 115ms, application-code: 1195ms)
+○ Compiling /admin/generateur-news ...
+ GET /admin/generateur-news 200 in 5.1s (next.js: 3.8s, application-code: 1308ms)
+ GET /admin/articles/new?title=hot+s3&category=Actualit%C3%A9s&content=R%C3%A9sum%C3%A9+pr%C3%A9par%C3%A9+en+fran%C3%A7ais+%3A%0A%0A-+https%3A%2F%2Fwww.ecranlarge.com%2Fseries%2Fnews%2Fhouse-of-the-dragon-saison-3-episode-special-got%0A%0AAngle+conseill%C3%A9+%3A+replacer+l%27information+dans+le+contexte+fran%C3%A7ais+de+Max%2C+HBO+et+Warner+Bros.+Discovery.&status=draft 200 in 416ms (next.js: 135ms, application-code: 281ms)
+ POST /admin/generateur-news 303 in 843ms (next.js: 33ms, application-code: 811ms)
+  └─ ƒ prepareNewsDraft({}) in 313ms app/admin/actions.ts
+ GET /prochainement 200 in 1436ms (next.js: 178ms, application-code: 1258ms)
