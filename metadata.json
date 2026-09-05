@@ -1,0 +1,6 @@
+{
+  "name": "Quoi sur HBO Max",
+  "description": "Actualités, coulisses, Top 10 France, productions à venir et bandes-annonces autour de HBO, Max et Warner Bros. Discovery en France.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}

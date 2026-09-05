@@ -9,6 +9,7 @@ const typeLabels: Record<ContentType | "all", string> = {
   all: "Tous",
   movie: "Films",
   series: "Séries",
+  sport: "Sport",
   documentary: "Documentaires",
   special: "Spéciaux"
 };

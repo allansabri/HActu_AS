@@ -2,7 +2,8 @@ import path from "node:path";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ["127.0.0.1", "localhost"],
+  output: "standalone",
+  allowedDevOrigins: ["127.0.0.1", "localhost", "*.run.app"],
   turbopack: {
     root: path.resolve(".")
   },

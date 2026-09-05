@@ -7,9 +7,10 @@ import { UpcomingTrailer } from "@/lib/types";
 
 export const revalidate = 60;
 
-const typeLabels = {
+const typeLabels: Record<string, string> = {
   movie: "Film",
   series: "Série",
+  sport: "Sport",
   documentary: "Documentaire",
   special: "Spécial"
 };
