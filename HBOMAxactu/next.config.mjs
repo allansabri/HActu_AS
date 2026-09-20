@@ -2,7 +2,8 @@ import path from "node:path";
 
 /** @type {import('next').NextConfig} */
 const nextConfig = {
-  allowedDevOrigins: ["127.0.0.1", "localhost"],
+  output: "standalone",
+  allowedDevOrigins: ["127.0.0.1", "localhost", "*.run.app"],
   turbopack: {
     root: path.resolve(".")
   },
@@ -10,7 +11,8 @@ const nextConfig = {
     remotePatterns: [
       { protocol: "https", hostname: "**.supabase.co" },
       { protocol: "https", hostname: "img.youtube.com" },
-      { protocol: "https", hostname: "i.ytimg.com" }
+      { protocol: "https", hostname: "i.ytimg.com" },
+      { protocol: "https", hostname: "i.ibb.co" }
     ]
   }
 };

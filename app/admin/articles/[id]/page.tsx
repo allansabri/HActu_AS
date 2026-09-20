@@ -5,10 +5,11 @@ import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { Article } from "@/lib/types";
 
-export default async function EditArticlePage({ params }: { params: { id: string } }) {
+export default async function EditArticlePage({ params }: { params: Promise<{ id: string }> }) {
+  const { id } = await params;
   const user = await requireAdmin();
   const supabase = await createClient();
-  const { data } = await supabase.from("articles").select("*").eq("id", params.id).single();
+  const { data } = await supabase.from("articles").select("*").eq("id", id).single();
   if (!data) notFound();
 
   return (

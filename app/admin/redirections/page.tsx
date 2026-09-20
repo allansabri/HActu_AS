@@ -6,15 +6,16 @@ import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { AdminRedirection } from "@/lib/types";
 
-export default async function AdminRedirectionsPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function AdminRedirectionsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const user = await requireAdmin();
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
   const { data, error } = await supabase.from("redirections").select("*").order("created_at", { ascending: false });
   const redirections = (data || []) as AdminRedirection[];
 
   return (
     <AdminShell title="Redirections" subtitle="Créer des redirections 301/302 actives ou inactives." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <AdminNotice searchParams={searchParams} />
+      <AdminNotice searchParams={resolvedSearchParams} />
       <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
         <AdminPanel className="p-5">
           <h3 className="mb-4 font-black">Ajouter</h3>

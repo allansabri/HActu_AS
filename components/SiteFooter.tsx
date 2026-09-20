@@ -38,7 +38,7 @@ export function SiteFooter() {
     <footer className="mt-12 border-t border-white/[0.08] bg-[#04050a]/92">
       <div className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]">
         <div>
-          <h2 className="text-base font-bold text-white/80">Quoi sur HBO Max</h2>
+          <h2 className="text-base font-bold text-white/80">HBO Max Actu</h2>
           <p className="mt-2.5 max-w-md text-[11px] leading-5 text-white/42">
             Média éditorial indépendant dédié aux sorties HBO, Max et Warner Bros. Discovery en France.
           </p>

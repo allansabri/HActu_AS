@@ -6,15 +6,16 @@ import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { AdminMediaItem } from "@/lib/types";
 
-export default async function AdminMediaPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function AdminMediaPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const user = await requireAdmin();
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
   const { data, error } = await supabase.from("media_library").select("*").order("created_at", { ascending: false });
   const media = (data || []) as AdminMediaItem[];
 
   return (
     <AdminShell title="Médiathèque" subtitle="Images, posters, bannières, vidéos, logos et thumbnails." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <AdminNotice searchParams={searchParams} />
+      <AdminNotice searchParams={resolvedSearchParams} />
       <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
         <AdminPanel className="p-5">
           <h3 className="mb-4 font-black">Ajouter un média</h3>

@@ -15,9 +15,13 @@ const config: Config = {
           panel: "#0b1020",
           line: "#1a2440",
           blue: "#8EA1AC",
-          cyan: "#ffffff",
+          cyan: "#00c4cc",
           violet: "#5b5dff"
         }
+      },
+      fontFamily: {
+        sans: ['"Max Sans"', "var(--font-max-sans)", "ui-sans-serif", "system-ui", "-apple-system", "BlinkMacSystemFont", '"Segoe UI"', "sans-serif"],
+        max: ['"Max Sans"', "var(--font-max-sans)", "sans-serif"]
       },
       boxShadow: {
         glow: "0 0 40px rgba(142, 161, 172, 0.18)"

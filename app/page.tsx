@@ -18,28 +18,6 @@ import { Article, ProductionProject } from "@/lib/types";
 
 export const revalidate = 60;
 
-function TrendBar({ items }: { items: Array<{ title: string; href: string }> }) {
-  if (!items.length) return null;
-  return (
-    <section className="border-b border-white/10 bg-[#05060a]">
-      <div className="mx-auto flex max-w-[1280px] items-center gap-x-2 overflow-x-auto px-4 py-2.5 text-xs sm:px-6">
-        <span className="shrink-0 rounded bg-white/5 px-2 py-px text-[9px] font-extrabold uppercase tracking-[1.5px] text-max-cyan">
-          Tendance
-        </span>
-        {items.map((item, i) => (
-          <Link
-            key={`${item.href}-${i}`}
-            href={item.href}
-            className="shrink-0 rounded-full border border-white/10 px-3 py-1 text-[12px] font-medium text-white/75 transition hover:bg-white/5 hover:text-white"
-          >
-            {item.title}
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function NewsletterSection({ state }: { state?: string }) {
   return (
     <section id="newsletter" className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
@@ -170,19 +148,12 @@ export default async function HomePage({
     getProductionsByType("movie", 8),
   ]);
 
-  const trendItems = [
-    ...top10.slice(0, 5).map((item) => ({ title: item.title, href: titleHref(item.type, item.title) })),
-    ...series.slice(0, 2).map((item) => ({ title: item.title, href: titleHref(item.type, item.title) }))
-  ];
-
   const latestNews = articles.slice(0, 1);
   const moreNews = articles.slice(1, 7);
   const recentProductions = [...series.slice(0, 4), ...movies.slice(0, 4)];
 
   return (
     <main className="bg-[#0a0c14]">
-      <TrendBar items={trendItems} />
-
       <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:py-10">
         {/* Editor's Pick / Hero like reference */}
         <section className="mb-10">

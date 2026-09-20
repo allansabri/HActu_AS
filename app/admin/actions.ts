@@ -1609,6 +1609,50 @@ export async function saveSiteSettings(formData: FormData) {
   redirectWithAdminMessage("/admin/reglages", "Réglages enregistrés.");
 }
 
+export async function loginAdminAction(formData: FormData) {
+  const email = text(formData, "email") || "";
+  const password = text(formData, "password") || "";
+
+  if (!email || !password) {
+    return { error: "Veuillez renseigner votre email et votre mot de passe." };
+  }
+
+  const supabase = await createClient();
+  const { data, error } = await supabase.auth.signInWithPassword({ email, password });
+
+  if (error) {
+    if (error.message === "Invalid login credentials") {
+      return { error: "Email ou mot de passe incorrect. Vérifiez vos identifiants Supabase." };
+    }
+    return { error: error.message };
+  }
+
+  if (!data.user) {
+    return { error: "Échec de l'authentification." };
+  }
+
+  const { data: roleData, error: roleError } = await supabase
+    .from("user_roles")
+    .select("role")
+    .eq("user_id", data.user.id)
+    .eq("role", "admin")
+    .maybeSingle();
+
+  if (roleError) {
+    console.error("Erreur vérification rôle:", roleError);
+  }
+
+  if (!roleData) {
+    return {
+      error: `Authentification réussie (${data.user.email}), mais le rôle admin n'a pas été trouvé pour l'ID ${data.user.id} dans la table user_roles.`,
+      needsRole: true,
+      userId: data.user.id
+    };
+  }
+
+  redirect("/admin");
+}
+
 export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();

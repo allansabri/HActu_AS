@@ -6,8 +6,9 @@ import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { NewsletterSubscriber } from "@/lib/types";
 
-export default async function AdminNewsletterPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function AdminNewsletterPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const user = await requireAdmin();
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
   const [{ data: subscribersData, error: subscribersError }, { data: campaignsData, error: campaignsError }] = await Promise.all([
     supabase.from("newsletter_subscribers").select("*").order("created_at", { ascending: false }),
@@ -18,7 +19,7 @@ export default async function AdminNewsletterPage({ searchParams }: { searchPara
 
   return (
     <AdminShell title="Newsletter" subtitle="Abonnés, campagnes, aperçu, test et statistiques." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <AdminNotice searchParams={searchParams} />
+      <AdminNotice searchParams={resolvedSearchParams} />
       <div className="grid gap-6 xl:grid-cols-[440px_1fr]">
         <AdminPanel className="p-5">
           <h3 className="mb-4 font-black">Nouvelle campagne</h3>

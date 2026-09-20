@@ -6,15 +6,16 @@ import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { AdminCollection } from "@/lib/types";
 
-export default async function AdminCollectionsPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function AdminCollectionsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const user = await requireAdmin();
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
   const { data, error } = await supabase.from("collections").select("*").order("created_at", { ascending: false });
   const collections = (data || []) as AdminCollection[];
 
   return (
     <AdminShell title="Collections" subtitle="Créer des univers éditoriaux puis y rattacher films, séries et articles." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <AdminNotice searchParams={searchParams} />
+      <AdminNotice searchParams={resolvedSearchParams} />
       <div className="grid gap-6 lg:grid-cols-[420px_1fr]">
         <AdminPanel className="p-5">
           <h3 className="mb-4 font-black">Nouvelle collection</h3>

@@ -5,19 +5,20 @@ import { InputField, TextAreaField } from "@/components/admin/Field";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 
-export default async function AdminSettingsPage({ searchParams }: { searchParams: Record<string, string | undefined> }) {
+export default async function AdminSettingsPage({ searchParams }: { searchParams: Promise<Record<string, string | undefined>> }) {
   const user = await requireAdmin();
+  const resolvedSearchParams = await searchParams;
   const supabase = await createClient();
   const { data } = await supabase.from("site_settings").select("*");
   const settings = Object.fromEntries(((data || []) as Array<{ key: string; value: string }>).map((item) => [item.key, item.value]));
 
   return (
     <AdminShell title="Réglages" subtitle="Nom du site, logo, menus, footer, réseaux, SEO global, maintenance, newsletter et API." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <AdminNotice searchParams={searchParams} />
+      <AdminNotice searchParams={resolvedSearchParams} />
       <AdminPanel className="p-5">
         <form action={saveSiteSettings} className="grid gap-5 lg:grid-cols-2">
           <InputField label="Nom du site" name="site_name" defaultValue={settings.site_name || "QuoiSurHBOMax"} />
-          <InputField label="Logo URL" name="logo_url" defaultValue={settings.logo_url || "/logo.png"} />
+          <InputField label="Logo URL" name="logo_url" defaultValue={settings.logo_url || "/hbo-max-actu.png"} />
           <TextAreaField label="Menus" name="main_menu" rows={4} defaultValue={settings.main_menu} placeholder="Accueil, Actualités, Top 10..." />
           <TextAreaField label="Footer" name="footer_text" rows={4} defaultValue={settings.footer_text} />
           <TextAreaField label="Réseaux sociaux" name="social_links" rows={4} defaultValue={settings.social_links} />

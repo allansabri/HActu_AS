@@ -16,28 +16,6 @@ import { Article, ProductionProject } from "@/lib/types";
 
 export const revalidate = 60;
 
-function TrendBar({ items }: { items: Array<{ title: string; href: string }> }) {
-  if (!items.length) return null;
-  return (
-    <section className="border-y border-white/10 bg-white/[0.035]">
-      <div className="mx-auto flex max-w-[1320px] items-center gap-3 overflow-x-auto px-4 py-2 text-xs sm:px-6">
-        <span className="shrink-0 text-[10px] font-medium uppercase tracking-[0.22em] text-max-cyan">
-          En ce moment
-        </span>
-        {items.map((item) => (
-          <Link
-            key={`${item.href}-${item.title}`}
-            href={item.href}
-            className="shrink-0 rounded-full border border-white/10 px-3 py-1.5 font-medium text-white/75 transition hover:border-white/30 hover:text-white"
-          >
-            {item.title}
-          </Link>
-        ))}
-      </div>
-    </section>
-  );
-}
-
 function NewsletterSection({ state }: { state?: string }) {
   return (
     <section id="newsletter" className="rounded-[8px] border border-white/10 bg-white/[0.045] p-4">
@@ -149,15 +127,8 @@ export default async function HomePage({ searchParams }: { searchParams: { newsl
     getCollections(6)
   ]);
 
-  const trendItems = [
-    ...top10.slice(0, 6).map((item) => ({ title: item.title, href: titleHref(item.type, item.title) })),
-    ...series.slice(0, 3).map((item) => ({ title: item.title, href: titleHref(item.type, item.title) }))
-  ];
-
   return (
     <main>
-      <TrendBar items={trendItems} />
-
       <div className="mx-auto grid max-w-[1320px] gap-6 px-4 py-6 sm:px-6 lg:grid-cols-[minmax(0,1fr)_320px]">
         <div className="min-w-0 space-y-9">
           <section>
