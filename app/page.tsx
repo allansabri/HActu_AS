@@ -4,6 +4,7 @@ import { SectionHeading } from "@/components/SectionHeading";
 import { Top10Widget } from "@/components/Top10Widget";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PosterCard } from "@/components/PosterCard";
+import { HeroTeaser } from "@/components/HeroTeaser";
 import { formatDate, youtubeId } from "@/lib/format";
 import { titleHref } from "@/lib/links";
 import {
@@ -39,37 +40,6 @@ function NewsletterSection({ state }: { state?: string }) {
       {state === "invalid" && <p className="mt-2 text-sm text-red-300">Email invalide.</p>}
       {state === "unavailable" && <p className="mt-2 text-sm text-yellow-300">Service newsletter non configuré.</p>}
     </section>
-  );
-}
-
-function ArticleHero({ article }: { article: Article }) {
-  return (
-    <Link
-      href={`/actualites/${article.slug}`}
-      className="group grid overflow-hidden rounded-2xl border border-white/10 bg-white/[0.03] transition-all hover:border-white/30 md:grid-cols-[1.15fr_0.85fr]"
-    >
-      <div className="relative min-h-[240px] overflow-hidden bg-black/50 md:min-h-[380px]">
-        <img
-          src={article.image_url || "/max-reference-bg.png"}
-          alt=""
-          className="absolute inset-0 h-full w-full object-cover transition duration-500 group-hover:scale-[1.04]"
-        />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/60 via-black/30 to-transparent md:bg-gradient-to-t md:from-black/65 md:via-black/20" />
-        <div className="absolute bottom-3 left-3 rounded bg-black/70 px-2 py-px text-[10px] font-bold uppercase tracking-widest text-white/95 md:hidden">
-          {article.category}
-        </div>
-      </div>
-      <div className="flex flex-col justify-center p-5 md:p-7">
-        <p className="text-[11px] font-extrabold uppercase tracking-[0.2em] text-max-cyan">{article.category}</p>
-        <h2 className="mt-2 text-[26px] font-black leading-[1.1] tracking-[-0.015em] md:mt-3 md:text-[34px]">{article.title}</h2>
-        {article.excerpt ? (
-          <p className="mt-3 line-clamp-3 text-[14.5px] leading-snug text-white/70">{article.excerpt}</p>
-        ) : null}
-        <time className="mt-4 text-xs font-medium tracking-wide text-white/40">
-          {formatDate(article.published_at || article.created_at)}
-        </time>
-      </div>
-    </Link>
   );
 }
 
@@ -148,26 +118,15 @@ export default async function HomePage({
     getProductionsByType("movie", 8),
   ]);
 
-  const latestNews = articles.slice(0, 1);
-  const moreNews = articles.slice(1, 7);
+  const moreNews = articles.slice(0, 6);
   const recentProductions = [...series.slice(0, 4), ...movies.slice(0, 4)];
 
   return (
     <main className="bg-[#0a0c14]">
-      <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:py-10">
-        {/* Editor's Pick / Hero like reference */}
-        <section className="mb-10">
-          <div className="mb-3 flex items-center gap-2">
-            <span className="inline-block rounded bg-max-cyan/90 px-2.5 py-px text-[10px] font-bold uppercase tracking-[1.5px] text-black">Édition du jour</span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-white/50">Featured</span>
-          </div>
-          {articles[0] ? (
-            <ArticleHero article={articles[0]} />
-          ) : (
-            <div className="rounded-xl border border-white/10 bg-white/[0.04] p-10 text-center text-white/60">Aucun article pour le moment.</div>
-          )}
-        </section>
+      {/* Cinematic Hero Teaser, touching navbar */}
+      <HeroTeaser />
 
+      <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:py-10">
         {/* Latest Stories - clean grid like What's on Netflix */}
         <section className="mb-10">
           <div className="mb-4 flex items-baseline justify-between">

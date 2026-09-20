@@ -27,10 +27,11 @@ export default async function TitleDetailPage({
   if (!isContentType(resolvedParams.type)) notFound();
 
   const titleQuery = resolvedSearch.title || resolvedParams.slug.replace(/-/g, " ");
-  const found = await findTmdbTitle(resolvedParams.type, titleQuery);
+  const found = await findTmdbTitle(resolvedParams.type, titleQuery).catch(() => null);
   if (!found) notFound();
 
-  const details = await getTmdbTitleDetails(mediaTypeFromContent(resolvedParams.type), found.tmdbId);
+  const details = await getTmdbTitleDetails(mediaTypeFromContent(resolvedParams.type), found.tmdbId).catch(() => null);
+  if (!details) notFound();
 
   return (
     <main>

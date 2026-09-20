@@ -13,7 +13,8 @@ export default async function PersonPage({ params }: { params: Promise<{ id: str
   const id = Number(resolvedParams.id);
   if (!Number.isFinite(id)) notFound();
 
-  const person = await getTmdbPerson(id);
+  const person = await getTmdbPerson(id).catch(() => null);
+  if (!person) notFound();
 
   return (
     <main className="mx-auto max-w-7xl px-4 py-10 sm:px-6">
