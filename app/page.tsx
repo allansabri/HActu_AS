@@ -5,8 +5,10 @@ import { Top10Widget } from "@/components/Top10Widget";
 import { ArticleCard } from "@/components/ArticleCard";
 import { PosterCard } from "@/components/PosterCard";
 import { HeroTeaser } from "@/components/HeroTeaser";
+import { UpcomingSeriesBanner } from "@/components/UpcomingSeriesBanner";
 import { formatDate, youtubeId } from "@/lib/format";
 import { titleHref } from "@/lib/links";
+import { getUpcomingSeriesBanner } from "@/lib/upcoming-banner";
 import {
   getCollections,
   getLatestArticles,
@@ -109,13 +111,14 @@ export default async function HomePage({
   searchParams: Promise<{ newsletter?: string }>;
 }) {
   const params = await searchParams;
-  const [articles, top10, trailers, upcoming, series, movies] = await Promise.all([
+  const [articles, top10, trailers, upcoming, series, movies, upcomingSeriesBanner] = await Promise.all([
     getLatestArticles(12),
     getTop10(),
     getTrailerArticles(3),
     getUpcomingProductionProjects(6),
     getProductionsByType("series", 8),
     getProductionsByType("movie", 8),
+    getUpcomingSeriesBanner(),
   ]);
 
   const moreNews = articles.slice(0, 4);
@@ -152,6 +155,9 @@ export default async function HomePage({
           </Link>
         </div>
       </section>
+
+      {/* Section : Nouvelles séries à venir en 2026 / 2027 */}
+      <UpcomingSeriesBanner config={upcomingSeriesBanner} />
 
       {/* Section 2 : Nouveautés sur Max */}
       <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">

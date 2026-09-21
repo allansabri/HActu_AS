@@ -255,3 +255,18 @@ export type ProductionProjectPro = {
   episodes: ProductionEpisode[];
   statusHistory: ProductionStatusHistory[];
 };
+
+export type UpcomingSeriesCard = {
+  id: string;
+  series_id?: string | number | null;
+  title: string;
+  badge: string;
+  poster_url: string;
+  accent_color?: string;
+  link_url?: string;
+};
+
+export type UpcomingSeriesBannerConfig = {
+  title: string;
+  cards: UpcomingSeriesCard[];
+};

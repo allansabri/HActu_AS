@@ -3,6 +3,8 @@ import { deleteUpcomingRelease } from "@/app/admin/actions";
 import { AdminPanel, AdminShell, EmptyState } from "@/components/admin/AdminShell";
 import { UpcomingForm } from "@/components/admin/UpcomingForm";
 import { UpcomingTmdbImport } from "@/components/admin/UpcomingTmdbImport";
+import { UpcomingSeriesBannerManager } from "@/components/admin/UpcomingSeriesBannerManager";
+import { getUpcomingSeriesBanner } from "@/lib/upcoming-banner";
 import { requireAdmin } from "@/lib/auth";
 import { formatDate } from "@/lib/format";
 import { createClient } from "@/lib/supabase-server";
@@ -18,13 +20,20 @@ export default async function AdminUpcomingPage() {
     .order("release_date", { ascending: true, nullsFirst: false });
 
   const releases = error ? demoUpcomingReleases : ((data || []) as UpcomingRelease[]);
+  const bannerConfig = await getUpcomingSeriesBanner();
 
   return (
     <AdminShell
       title="Prochainement"
-      subtitle="Gère les sorties à venir, leurs affiches TMDB et leurs bandes-annonces. Cette section est séparée du suivi des productions."
+      subtitle="Gère les sorties à venir, leurs affiches TMDB, leurs bandes-annonces et le bandeau de séries 2026/2027 sur l'accueil."
       userLabel={user.email?.split("@")[0] || "Admin"}
     >
+      <div className="mb-10">
+        <UpcomingSeriesBannerManager initialConfig={bannerConfig} />
+      </div>
+
+      <div className="my-8 border-t border-white/10" />
+
       <UpcomingTmdbImport />
 
       {error ? (

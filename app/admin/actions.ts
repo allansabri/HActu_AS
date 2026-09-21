@@ -5,8 +5,9 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { slugify, todayIso } from "@/lib/format";
 import { createClient } from "@/lib/supabase-server";
-import { findTmdbTitle, getTmdbPosters, getTmdbProduction, searchTmdb, TmdbMediaType, TmdbPoster, TmdbSearchResult } from "@/lib/tmdb";
+import { findTmdbTitle, getTmdbPosters, getTmdbProduction, getTmdbTitleDetails, searchTmdb, TmdbMediaType, TmdbPoster, TmdbSearchResult } from "@/lib/tmdb";
 import { syncTmdbProductions } from "@/lib/production-sync";
+import { knownSeriesCatalog } from "@/lib/upcoming-banner";
 import { ContentType, ProductionStatus, UpcomingTrailerSource } from "@/lib/types";
 
 function text(formData: FormData, key: string) {
@@ -1657,4 +1658,83 @@ export async function signOut() {
   const supabase = await createClient();
   await supabase.auth.signOut();
   redirect("/");
+}
+
+export async function fetchSeriesPosterForAdmin(queryOrId: string): Promise<{ title: string; posterUrl: string; seriesId: string } | null> {
+  await requireAdmin();
+  const trimmed = queryOrId.trim();
+  if (!trimmed) return null;
+
+  // 1. Check known catalog
+  if (knownSeriesCatalog[trimmed]) {
+    return {
+      seriesId: trimmed,
+      title: knownSeriesCatalog[trimmed].title,
+      posterUrl: knownSeriesCatalog[trimmed].poster_url
+    };
+  }
+
+  // Check by case-insensitive title in known catalog
+  const foundKnown = Object.entries(knownSeriesCatalog).find(
+    ([, val]) => val.title.toLowerCase() === trimmed.toLowerCase()
+  );
+  if (foundKnown) {
+    return {
+      seriesId: foundKnown[0],
+      title: foundKnown[1].title,
+      posterUrl: foundKnown[1].poster_url
+    };
+  }
+
+  // 2. If numeric ID, attempt TMDB lookup
+  if (/^\d+$/.test(trimmed)) {
+    try {
+      const details = await getTmdbTitleDetails("tv", Number(trimmed));
+      if (details) {
+        return {
+          seriesId: trimmed,
+          title: details.title,
+          posterUrl: details.posterUrl || ""
+        };
+      }
+    } catch {
+      // Continue to fallback
+    }
+  }
+
+  // 3. Search TMDB or productions
+  try {
+    const results = await searchTmdb(trimmed);
+    const firstTv = results.find((r) => r.type === "series") || results[0];
+    if (firstTv) {
+      return {
+        seriesId: String(firstTv.tmdbId),
+        title: firstTv.title,
+        posterUrl: firstTv.posterUrl || ""
+      };
+    }
+  } catch {
+    // fallback
+  }
+
+  return null;
+}
+
+export async function saveUpcomingSeriesBannerAction(formData: FormData) {
+  await requireAdmin();
+  const title = text(formData, "banner_title") || "À venir en 2027";
+  const cardsJson = text(formData, "cards_json") || "[]";
+
+  const supabase = await createClient();
+  const rows = [
+    { key: "upcoming_series_banner_title", value: title },
+    { key: "upcoming_series_banner_items", value: cardsJson }
+  ];
+
+  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/prochainement");
+  revalidatePath("/admin/series-a-venir");
+  return { success: true };
 }
