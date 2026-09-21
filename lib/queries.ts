@@ -12,8 +12,14 @@ export async function getLatestArticles(limit = 12) {
     .order("created_at", { ascending: false })
     .limit(limit);
 
-  const articles = (data || []) as Article[];
-  return articles.length ? articles : demoArticles.slice(0, limit);
+  const dbArticles = (data || []) as Article[];
+  const existingSlugs = new Set(dbArticles.map((a) => a.slug));
+  const combined = [
+    ...dbArticles,
+    ...demoArticles.filter((a) => !existingSlugs.has(a.slug)),
+  ];
+
+  return combined.slice(0, limit);
 }
 
 export async function getFeaturedArticles() {

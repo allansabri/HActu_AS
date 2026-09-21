@@ -36,7 +36,7 @@ const columns = [
 export function SiteFooter() {
   return (
     <footer className="mt-12 border-t border-white/[0.08] bg-[#04050a]/92">
-      <div className="mx-auto grid max-w-[1500px] gap-7 px-4 py-8 sm:px-6 lg:grid-cols-[1.4fr_2fr]">
+      <div className="w-full grid gap-7 px-4 py-8 sm:px-6 lg:px-8 lg:grid-cols-[1.4fr_2fr]">
         <div>
           <h2 className="text-base font-bold text-white/80">HBO Max Actu</h2>
           <p className="mt-2.5 max-w-md text-[11px] leading-5 text-white/42">

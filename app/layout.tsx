@@ -62,6 +62,23 @@ export const metadata: Metadata = {
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="fr" className={`${maxSans.variable} font-sans`}>
+      <head>
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `
+              try {
+                var _f = window.fetch;
+                Object.defineProperty(window, 'fetch', {
+                  get: function() { return _f; },
+                  set: function(v) { _f = v; },
+                  configurable: true,
+                  enumerable: true
+                });
+              } catch (e) {}
+            `,
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <LanguageProvider>
           <SiteHeader />

@@ -1,7 +1,7 @@
 export function formatDate(date?: string | null) {
   if (!date) return "Date à confirmer";
   return new Intl.DateTimeFormat("fr-FR", {
-    day: "2-digit",
+    day: "numeric",
     month: "long",
     year: "numeric"
   }).format(new Date(date));

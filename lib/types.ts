@@ -24,6 +24,7 @@ export type Article = {
   category: string;
   status: ArticleStatus;
   author_id: string | null;
+  author_name?: string | null;
   seo_title?: string | null;
   seo_description?: string | null;
   related_content?: string | null;

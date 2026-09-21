@@ -118,91 +118,93 @@ export default async function HomePage({
     getProductionsByType("movie", 8),
   ]);
 
-  const moreNews = articles.slice(0, 6);
+  const moreNews = articles.slice(0, 4);
   const recentProductions = [...series.slice(0, 4), ...movies.slice(0, 4)];
 
   return (
-    <main className="bg-[#0a0c14]">
+    <main className="bg-[#050a0a]">
       {/* Cinematic Hero Teaser, touching navbar */}
       <HeroTeaser />
 
-      <div className="mx-auto max-w-[1280px] px-4 py-8 sm:px-6 lg:py-10">
-        {/* Latest Stories - clean grid like What's on Netflix */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-baseline justify-between">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-max-cyan">Actualités</p>
-              <h2 className="text-3xl font-black tracking-[-0.02em]">Dernières actualités</h2>
-            </div>
-            <Link href="/actualites" className="hidden text-sm font-medium text-max-cyan hover:underline md:block">Toutes les news →</Link>
-          </div>
+      {/* Section 1 : Les dernières actualités */}
+      <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <div className="mb-4">
+          <h2 className="text-2xl font-semibold tracking-tight text-white">Les dernières actualités</h2>
+        </div>
 
-          <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
-            {moreNews.length > 0 ? (
-              moreNews.map((article, index) => (
-                <ArticleCard key={article.id} article={article} index={index} />
-              ))
-            ) : (
-              <p className="text-white/50 col-span-full">Pas encore d’articles publiés.</p>
-            )}
-          </div>
+        <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {moreNews.length > 0 ? (
+            moreNews.map((article, index) => (
+              <ArticleCard key={article.id} article={article} index={index} />
+            ))
+          ) : (
+            <p className="text-white/50 col-span-full">Pas encore d’articles publiés.</p>
+          )}
+        </div>
 
-          <div className="mt-3 md:hidden">
-            <Link href="/actualites" className="text-sm font-medium text-max-cyan">Voir toutes les actualités →</Link>
-          </div>
-        </section>
+        {/* Bouton en pilule pour voir toutes les actualités */}
+        <div className="mt-8 flex justify-center">
+          <Link
+            href="/actualites"
+            className="inline-flex items-center justify-center rounded-full bg-[#8197a9] px-7 py-3 text-sm sm:text-[15px] font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#a5abb2] hover:shadow-lg active:scale-[0.99]"
+          >
+            Voir toutes les actualités
+          </Link>
+        </div>
+      </section>
 
-        {/* What's New style section - Nouveautés sur Max (like ref) */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-baseline justify-between border-b border-white/10 pb-3">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-max-cyan">Catalogue Max</p>
-              <h2 className="text-3xl font-black tracking-[-0.02em]">Nouveautés &amp; à voir sur Max</h2>
-            </div>
-            <div className="hidden gap-4 text-sm md:flex">
-              <Link href="/series" className="font-medium text-max-cyan hover:underline">Séries</Link>
-              <Link href="/films" className="font-medium text-max-cyan hover:underline">Films</Link>
-              <Link href="/nouveautes" className="font-medium text-white/70 hover:text-white">Toutes →</Link>
-            </div>
+      {/* Section 2 : Nouveautés sur Max */}
+      <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <div className="mb-4 flex items-baseline justify-between border-b border-white/10 pb-3">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-max-cyan">Catalogue Max</p>
+            <h2 className="text-3xl font-black tracking-[-0.02em]">Nouveautés &amp; à voir sur Max</h2>
           </div>
+          <div className="hidden gap-4 text-sm md:flex">
+            <Link href="/series" className="font-medium text-max-cyan hover:underline">Séries</Link>
+            <Link href="/films" className="font-medium text-max-cyan hover:underline">Films</Link>
+            <Link href="/nouveautes" className="font-medium text-white/70 hover:text-white">Toutes →</Link>
+          </div>
+        </div>
 
-          <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
-            {recentProductions.slice(0, 12).map((project, i) => (
-              <PosterCard key={project.id} project={project} index={i} showStatus={false} />
+        <div className="grid grid-cols-2 gap-3 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 xl:grid-cols-6">
+          {recentProductions.slice(0, 12).map((project, i) => (
+            <PosterCard key={project.id} project={project} index={i} showStatus={false} />
+          ))}
+        </div>
+
+        <div className="mt-2 text-right text-sm">
+          <Link href="/productions" className="text-max-cyan hover:underline">Explorer tout le catalogue →</Link>
+        </div>
+      </section>
+
+      {/* Section 3 : Prochainement sur Max */}
+      <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
+        <div className="mb-4 flex items-baseline justify-between">
+          <div>
+            <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-max-cyan">Agenda</p>
+            <h2 className="text-3xl font-black tracking-[-0.02em]">Prochainement sur Max</h2>
+          </div>
+          <Link href="/prochainement" className="hidden text-sm font-medium text-max-cyan hover:underline md:block">Voir le calendrier complet →</Link>
+        </div>
+
+        {upcoming.length > 0 ? (
+          <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
+            {upcoming.slice(0, 6).map((project, index) => (
+              <MediaLandscapeCard key={project.id} project={project} index={index} />
             ))}
           </div>
+        ) : (
+          <p className="text-white/60">Aucune sortie annoncée pour le moment.</p>
+        )}
 
-          <div className="mt-2 text-right text-sm">
-            <Link href="/productions" className="text-max-cyan hover:underline">Explorer tout le catalogue →</Link>
-          </div>
-        </section>
+        <div className="mt-3 md:hidden">
+          <Link href="/prochainement" className="text-sm font-medium text-max-cyan">Voir tout le calendrier →</Link>
+        </div>
+      </section>
 
-        {/* Coming Soon / Prochainement - clean like reference */}
-        <section className="mb-10">
-          <div className="mb-4 flex items-baseline justify-between">
-            <div>
-              <p className="text-[11px] font-semibold uppercase tracking-[0.22em] text-max-cyan">Agenda</p>
-              <h2 className="text-3xl font-black tracking-[-0.02em]">Prochainement sur Max</h2>
-            </div>
-            <Link href="/prochainement" className="hidden text-sm font-medium text-max-cyan hover:underline md:block">Voir le calendrier complet →</Link>
-          </div>
-
-          {upcoming.length > 0 ? (
-            <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-              {upcoming.slice(0, 6).map((project, index) => (
-                <MediaLandscapeCard key={project.id} project={project} index={index} />
-              ))}
-            </div>
-          ) : (
-            <p className="text-white/60">Aucune sortie annoncée pour le moment.</p>
-          )}
-
-          <div className="mt-3 md:hidden">
-            <Link href="/prochainement" className="text-sm font-medium text-max-cyan">Voir tout le calendrier →</Link>
-          </div>
-        </section>
-
-        {/* Two column bottom: Top 10 + Newsletter + Trailers */}
+      {/* Section 4 : Top 10 France + Newsletter + Bandes-annonces */}
+      <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] px-4 py-8 sm:px-6 lg:px-8 lg:py-12">
         <div className="grid gap-6 lg:grid-cols-12">
           {/* Top 10 clean block */}
           <div className="lg:col-span-5">
@@ -243,7 +245,7 @@ export default async function HomePage({
             )}
           </div>
         </div>
-      </div>
+      </section>
     </main>
   );
 }
