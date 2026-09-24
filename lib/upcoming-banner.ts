@@ -7,6 +7,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "95350",
     title: "Lanterns",
     badge: "Disponible",
+    header_title: "DISPONIBLE",
+    header_subtitle: "TOUS LES LUNDIS",
+    genre: "DRAME",
+    synopsis: "Hal Jordan, policier intergalactique, et la jeune recrue John Stewart se retrouvent mêlés à une sombre affaire de meurtre sur Terre, au cœur de l'Amérique.",
     poster_url: "/series-a-venir/lanterns.jpg",
     accent_color: "#00e5ff",
     link_url: "/prochainement/lanterns"
@@ -16,6 +20,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "82670",
     title: "War",
     badge: "Le 2 octobre",
+    header_title: "2 OCTOBRE",
+    header_subtitle: "NOUVELLE SÉRIE",
+    genre: "ACTION",
+    synopsis: "Une plongée spectaculaire au cœur d'un conflit mondial où le courage et la survie dictent chaque décision cruciale.",
     poster_url: "/series-a-venir/war.jpg",
     accent_color: "#f59e0b",
     link_url: "/prochainement/war"
@@ -25,6 +33,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "288385",
     title: "Paolo",
     badge: "Le 24 septembre",
+    header_title: "24 SEPTEMBRE",
+    header_subtitle: "NOUVELLE SÉRIE",
+    genre: "DRAME",
+    synopsis: "Le portrait captivant et émouvant d'un homme face à ses choix, naviguant entre responsabilités familiales et ambitions personnelles.",
     poster_url: "/series-a-venir/paolo.jpg",
     accent_color: "#10b981",
     link_url: "/prochainement/paolo"
@@ -34,6 +46,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "224377",
     title: "Harry Potter",
     badge: "À Noël",
+    header_title: "À NOËL",
+    header_subtitle: "Nouvelle Série",
+    genre: "FANTASTIQUE",
+    synopsis: "La nouvelle adaptation originale des célèbres aventures de Harry, Ron et Hermione au cœur du monde magique de Poudlard.",
     poster_url: "/series-a-venir/harry-potter.jpg",
     accent_color: "#eab308",
     link_url: "/prochainement/harry-potter"
@@ -43,6 +59,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "250307",
     title: "The Pitt",
     badge: "En 2027",
+    header_title: "EN 2027",
+    header_subtitle: "NOUVELLE SÉRIE",
+    genre: "DRAME MÉDICAL",
+    synopsis: "Le quotidien sous haute tension des soignants et médecins des urgences d'un grand hôpital américain à Pittsburgh.",
     poster_url: "/series-a-venir/the-pitt.jpg",
     accent_color: "#38bdf8",
     link_url: "/prochainement/the-pitt"
@@ -52,6 +72,10 @@ export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
     series_id: "224372",
     title: "A Knight of the Seven Kingdoms",
     badge: "En 2027",
+    header_title: "EN 2027",
+    header_subtitle: "NOUVELLE SÉRIE",
+    genre: "AVENTURE",
+    synopsis: "Un siècle avant Game of Thrones, suivez les péripéties à travers Westeros du chevalier errant Duncan et de son jeune écuyer l'Œuf.",
     poster_url: "/series-a-venir/knight-seven-kingdoms.jpg",
     accent_color: "#f97316",
     link_url: "/prochainement/a-knight-of-the-seven-kingdoms"
@@ -145,7 +169,21 @@ export async function getUpcomingSeriesBanner(): Promise<UpcomingSeriesBannerCon
       try {
         const parsed = JSON.parse(settingsMap.upcoming_series_banner_items);
         if (Array.isArray(parsed) && parsed.length > 0) {
-          cards = parsed;
+          cards = parsed.map((card: UpcomingSeriesCard) => {
+            const matchingDefault = defaultUpcomingSeriesCards.find(
+              (d) => d.id === card.id || d.title?.toLowerCase() === card.title?.toLowerCase()
+            );
+            if (matchingDefault) {
+              return {
+                ...card,
+                header_title: card.header_title || matchingDefault.header_title,
+                header_subtitle: card.header_subtitle || matchingDefault.header_subtitle,
+                genre: card.genre || matchingDefault.genre,
+                synopsis: card.synopsis || matchingDefault.synopsis
+              };
+            }
+            return card;
+          });
         }
       } catch {
         cards = defaultUpcomingSeriesCards;

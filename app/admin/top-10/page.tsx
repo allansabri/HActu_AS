@@ -2,22 +2,33 @@ import { importTop10 } from "@/app/admin/actions";
 import { AdminNav } from "@/components/admin/AdminNav";
 import { TextAreaField } from "@/components/admin/Field";
 import { Top10Builder } from "@/components/admin/Top10Builder";
+import { Top10SectionConfigForm } from "@/components/admin/Top10SectionConfigForm";
 import { todayIso } from "@/lib/format";
 import { requireAdmin } from "@/lib/auth";
 import { getTop10 } from "@/lib/queries";
+import { getTop10Config } from "@/lib/top10-config";
 
 export default async function AdminTop10Page() {
   await requireAdmin();
-  const items = await getTop10();
+  const [items, config] = await Promise.all([
+    getTop10(),
+    getTop10Config(),
+  ]);
 
   return (
     <main className="mx-auto max-w-6xl px-4 py-10 sm:px-6">
       <AdminNav />
-      <h1 className="text-4xl font-black">Mise à jour du Top 10</h1>
+      <h1 className="text-4xl font-black">Gestion des plus populaires (Top 10)</h1>
       <p className="mt-3 max-w-3xl text-white/62">
-        Recherche les titres via TMDB, ajoute-les dans l'ordre du classement, puis sauvegarde les 10 lignes avec leurs vignettes.
+        Gérez le titre de la section, les sous-titres, et ajoutez les titres classés par recherche ou directement par leur ID TMDB.
       </p>
+
+      {/* Formulaire de configuration des titres / sous-titres */}
       <div className="mt-6">
+        <Top10SectionConfigForm config={config} />
+      </div>
+
+      <div className="mt-8">
         <Top10Builder date={todayIso()} initialItems={items} />
       </div>
       <details className="mt-6 rounded-lg border border-white/10 bg-white/[0.035] p-5">

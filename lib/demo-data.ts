@@ -498,6 +498,98 @@ export const demoProductions: ProductionProject[] = [
     image_url: tmdbImage("/cfT29Im5VDvjE0RpyKOSdCKZal7.jpg", "w1280"),
     created_at: now,
     updated_at: now
+  },
+  {
+    id: "demo-prod-the-penguin",
+    title: "The Penguin",
+    type: "series",
+    status: "Sorti",
+    production_label: "DC / HBO Original",
+    synopsis: "Oz Cobb tente de s'emparer du pouvoir à Gotham City après les événements de The Batman.",
+    casting: ["Colin Farrell", "Cristin Milioti", "Rhenzy Feliz"],
+    director: "Craig Zobel",
+    release_date_estimated: "2024-09-19",
+    release_year: 2024,
+    genres: ["Crime", "Drame"],
+    platform: "Max",
+    poster_url: tmdbImage("/aKaZpB4wXmG0x4eJ2t2WcO1D4Fk.jpg"),
+    banner_url: tmdbImage("/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", "w1280"),
+    tmdb_id: 194764,
+    tmdb_media_type: "tv",
+    production_company: "DC Studios, Warner Bros. Television",
+    source_url: "https://www.themoviedb.org/tv/194764",
+    image_url: tmdbImage("/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", "w1280"),
+    created_at: now,
+    updated_at: now
+  },
+  {
+    id: "demo-prod-succession",
+    title: "Succession",
+    type: "series",
+    status: "Sorti",
+    production_label: "HBO Original",
+    synopsis: "La lutte fratricide au sein de la famille Roy pour prendre le contrôle du conglomérat Waystar RoyCo.",
+    casting: ["Brian Cox", "Jeremy Strong", "Sarah Snook"],
+    director: "Jesse Armstrong",
+    release_date_estimated: "2018-06-03",
+    release_year: 2018,
+    genres: ["Drame"],
+    platform: "Max",
+    poster_url: tmdbImage("/77tEN7Xk4rG91hG1qK3g9z1wDq9.jpg"),
+    banner_url: tmdbImage("/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg", "w1280"),
+    tmdb_id: 76331,
+    tmdb_media_type: "tv",
+    production_company: "HBO",
+    source_url: "https://www.themoviedb.org/tv/76331",
+    image_url: tmdbImage("/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg", "w1280"),
+    created_at: now,
+    updated_at: now
+  },
+  {
+    id: "demo-prod-furiosa",
+    title: "Furiosa : Une saga Mad Max",
+    type: "movie",
+    status: "Sorti",
+    production_label: "Warner Bros.",
+    synopsis: "Dans un monde en déclin, la jeune Furiosa est arrachée à la Terre Verte des Mille Mères.",
+    casting: ["Anya Taylor-Joy", "Chris Hemsworth", "Tom Burke"],
+    director: "George Miller",
+    release_date_estimated: "2024-05-22",
+    release_year: 2024,
+    genres: ["Action", "Science-fiction"],
+    platform: "Max",
+    poster_url: tmdbImage("/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg"),
+    banner_url: tmdbImage("/acevLdSl5I2MK5RYAm7gwAndt1w.jpg", "w1280"),
+    tmdb_id: 786892,
+    tmdb_media_type: "movie",
+    production_company: "Warner Bros. Pictures",
+    source_url: "https://www.themoviedb.org/movie/786892",
+    image_url: tmdbImage("/acevLdSl5I2MK5RYAm7gwAndt1w.jpg", "w1280"),
+    created_at: now,
+    updated_at: now
+  },
+  {
+    id: "demo-prod-beetlejuice",
+    title: "Beetlejuice Beetlejuice",
+    type: "movie",
+    status: "Sorti",
+    production_label: "Warner Bros.",
+    synopsis: "Après une tragédie familiale inattendue, trois générations de la famille Deetz reviennent à Winter River.",
+    casting: ["Michael Keaton", "Winona Ryder", "Jenna Ortega"],
+    director: "Tim Burton",
+    release_date_estimated: "2024-09-04",
+    release_year: 2024,
+    genres: ["Comédie", "Fantastique"],
+    platform: "Max",
+    poster_url: tmdbImage("/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg"),
+    banner_url: tmdbImage("/DotnJ7tTA34", "w1280"),
+    tmdb_id: 917496,
+    tmdb_media_type: "movie",
+    production_company: "Warner Bros. Pictures",
+    source_url: "https://www.themoviedb.org/movie/917496",
+    image_url: tmdbImage("/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg", "w1280"),
+    created_at: now,
+    updated_at: now
   }
 ];
 
@@ -525,25 +617,52 @@ export const demoCollections: AdminCollection[] = [
   }
 ];
 
-export function demoTop10(date = todayIso()): Top10Item[] {
-  const rows = [
-    ...demoProductions
-      .filter((project) => project.type === "series")
-      .slice(0, 5)
-      .map((project, index) => ({ project, rank: index + 1 })),
-    ...demoProductions
-      .filter((project) => project.type === "movie")
-      .slice(0, 5)
-      .map((project, index) => ({ project, rank: index + 1 }))
-  ];
+const defaultDemoSeries = [
+  { title: "The Last of Us", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg" },
+  { title: "House of the Dragon", poster: "/lP73xk4HGJ9CPxDWouzKzK6j82o.jpg" },
+  { title: "Game of Thrones", poster: "/eRMfekBOnwyE9G0ffyEJIBOjX2n.jpg" },
+  { title: "The Penguin", poster: "/aKaZpB4wXmG0x4eJ2t2WcO1D4Fk.jpg" },
+  { title: "Succession", poster: "/77tEN7Xk4rG91hG1qK3g9z1wDq9.jpg" },
+  { title: "The White Lotus", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg" },
+  { title: "Euphoria", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg" },
+  { title: "True Detective", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg" },
+  { title: "Chernobyl", poster: "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg" },
+  { title: "Les Soprano", poster: "/2OMB0ynKlyIenMJWI2Dy9IWT4c.jpg" },
+];
 
-  return rows.map(({ project, rank }) => ({
-    id: `demo-top10-${project.type}-${rank}`,
+const defaultDemoMovies = [
+  { title: "The Batman", poster: "/t9JGg10CW1DzXEdWL54ewkUko6N.jpg" },
+  { title: "Dune : Deuxième partie", poster: "/iRNbRAIGQQr5diGnjpwJFm0dgt4.jpg" },
+  { title: "The Dark Knight : Le Chevalier noir", poster: "/pyNXnq8QBWoK3b37RS6C3axwUOy.jpg" },
+  { title: "Furiosa : Une saga Mad Max", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg" },
+  { title: "Beetlejuice Beetlejuice", poster: "/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg" },
+  { title: "Joker : Folie à Deux", poster: "/cfT29Im5VDvjE0RpyKOSdCKZal7.jpg" },
+  { title: "Barbie", poster: "/DotnJ7tTA34.jpg" },
+  { title: "Interstellar", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg" },
+  { title: "Inception", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg" },
+  { title: "Matrix", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg" },
+];
+
+export function demoTop10(date = todayIso()): Top10Item[] {
+  const seriesItems: Top10Item[] = defaultDemoSeries.map((s, index) => ({
+    id: `demo-top10-series-${index + 1}`,
     date,
-    type: project.type,
-    rank,
-    title: project.title,
-    image_url: project.poster_url || project.image_url,
-    created_at: now
+    type: "series",
+    rank: index + 1,
+    title: s.title,
+    image_url: tmdbImage(s.poster),
+    created_at: now,
   }));
+
+  const movieItems: Top10Item[] = defaultDemoMovies.map((m, index) => ({
+    id: `demo-top10-movie-${index + 1}`,
+    date,
+    type: "movie",
+    rank: index + 1,
+    title: m.title,
+    image_url: tmdbImage(m.poster),
+    created_at: now,
+  }));
+
+  return [...seriesItems, ...movieItems];
 }

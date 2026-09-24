@@ -29,7 +29,7 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(to_right,#1c2a37_0%,#050a0a_25%,#050a0a_100%)] backdrop-blur-xl">
-      <div className="flex w-full items-center justify-between gap-4 px-4 py-2.5 sm:px-6 lg:px-8 sm:py-3">
+      <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-2.5 sm:py-3">
         <div className="flex items-center gap-8 sm:gap-12 lg:gap-14">
           <Link href="/" className="shrink-0 flex items-center" aria-label="HBO Max Actu">
             <Image

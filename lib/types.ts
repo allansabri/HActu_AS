@@ -261,6 +261,10 @@ export type UpcomingSeriesCard = {
   series_id?: string | number | null;
   title: string;
   badge: string;
+  header_title?: string;
+  header_subtitle?: string;
+  genre?: string;
+  synopsis?: string;
   poster_url: string;
   accent_color?: string;
   link_url?: string;

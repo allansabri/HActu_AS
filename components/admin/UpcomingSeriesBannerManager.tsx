@@ -23,15 +23,34 @@ interface Props {
 
 export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
   const [title, setTitle] = useState(initialConfig.title || "À venir en 2026");
-  const [cards, setCards] = useState<UpcomingSeriesCard[]>(
-    initialConfig.cards && initialConfig.cards.length > 0
-      ? initialConfig.cards
-      : defaultUpcomingSeriesCards
-  );
+  const [cards, setCards] = useState<UpcomingSeriesCard[]>(() => {
+    if (initialConfig.cards && initialConfig.cards.length > 0) {
+      return initialConfig.cards.map((c) => {
+        const matchingDefault = defaultUpcomingSeriesCards.find(
+          (d) => d.id === c.id || d.title.toLowerCase() === c.title.toLowerCase()
+        );
+        if (matchingDefault) {
+          return {
+            ...c,
+            header_title: c.header_title || matchingDefault.header_title,
+            header_subtitle: c.header_subtitle || matchingDefault.header_subtitle,
+            genre: c.genre || matchingDefault.genre,
+            synopsis: c.synopsis || matchingDefault.synopsis
+          };
+        }
+        return c;
+      });
+    }
+    return defaultUpcomingSeriesCards;
+  });
 
   // New card form state
   const [seriesQuery, setSeriesQuery] = useState("");
   const [newTitle, setNewTitle] = useState("");
+  const [newHeaderTitle, setNewHeaderTitle] = useState("");
+  const [newHeaderSubtitle, setNewHeaderSubtitle] = useState("");
+  const [newGenre, setNewGenre] = useState("");
+  const [newSynopsis, setNewSynopsis] = useState("");
   const [newPosterUrl, setNewPosterUrl] = useState("");
   const [newSeriesId, setNewSeriesId] = useState("");
 
@@ -81,6 +100,10 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
       series_id: newSeriesId || null,
       title: newTitle.trim(),
       badge: "",
+      header_title: newHeaderTitle.trim(),
+      header_subtitle: newHeaderSubtitle.trim(),
+      genre: newGenre.trim() || "SÉRIE",
+      synopsis: newSynopsis.trim(),
       poster_url: newPosterUrl.trim(),
       accent_color: "#00e5ff",
       link_url: `/prochainement/${newTitle.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`
@@ -90,9 +113,26 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
     // Reset form
     setSeriesQuery("");
     setNewTitle("");
+    setNewHeaderTitle("");
+    setNewHeaderSubtitle("");
+    setNewGenre("");
+    setNewSynopsis("");
     setNewPosterUrl("");
     setNewSeriesId("");
     setSaveMessage(null);
+  };
+
+  const handleUpdateCardField = (
+    index: number,
+    field: "header_title" | "header_subtitle" | "genre" | "synopsis",
+    value: string
+  ) => {
+    const updated = [...cards];
+    updated[index] = {
+      ...updated[index],
+      [field]: value
+    };
+    setCards(updated);
   };
 
   const handleRemoveCard = (index: number) => {
@@ -241,7 +281,7 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
         </div>
 
         {/* Card details form */}
-        <form onSubmit={handleAddCard} className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <form onSubmit={handleAddCard} className="mt-6 grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
           <div>
             <label className="block text-xs font-semibold text-white/80">Titre de la série</label>
             <input
@@ -254,7 +294,51 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
             />
           </div>
 
-          <div className="lg:col-span-2">
+          <div>
+            <label className="block text-xs font-semibold text-white/80">Titre bandeau (Gras)</label>
+            <input
+              type="text"
+              value={newHeaderTitle}
+              onChange={(e) => setNewHeaderTitle(e.target.value)}
+              placeholder="Ex: DISPONIBLE"
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-white font-bold focus:border-max-cyan focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-white/80">Sous-titre bandeau</label>
+            <input
+              type="text"
+              value={newHeaderSubtitle}
+              onChange={(e) => setNewHeaderSubtitle(e.target.value)}
+              placeholder="Ex: TOUS LES LUNDIS"
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-zinc-300 font-semibold focus:border-max-cyan focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-white/80">Genre (au survol)</label>
+            <input
+              type="text"
+              value={newGenre}
+              onChange={(e) => setNewGenre(e.target.value)}
+              placeholder="Ex: DRAME ou SUPER-HÉROS"
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-sm text-[#788d9f] font-semibold focus:border-max-cyan focus:outline-none"
+            />
+          </div>
+
+          <div>
+            <label className="block text-xs font-semibold text-white/80">Synopsis / Pitch (au survol)</label>
+            <textarea
+              rows={2}
+              value={newSynopsis}
+              onChange={(e) => setNewSynopsis(e.target.value)}
+              placeholder="Ex: Hal Jordan et la jeune recrue John Stewart..."
+              className="mt-1 w-full rounded-lg border border-white/15 bg-white/5 px-3 py-2 text-xs text-white focus:border-max-cyan focus:outline-none resize-none"
+            />
+          </div>
+
+          <div className="sm:col-span-2">
             <label className="block text-xs font-semibold text-white/80">URL de l&apos;affiche</label>
             <input
               type="text"
@@ -266,7 +350,7 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
             />
           </div>
 
-          <div className="sm:col-span-2 lg:col-span-3 flex items-center justify-between pt-2">
+          <div className="sm:col-span-2 lg:col-span-4 flex items-center justify-between pt-2">
             {newPosterUrl ? (
               <div className="flex items-center gap-3">
                 <div className="relative h-14 w-10 overflow-hidden rounded bg-zinc-900 shadow">
@@ -314,11 +398,55 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
               </div>
 
               {/* Card Meta */}
-              <div className="mt-2.5 flex-1">
+              <div className="mt-2.5">
                 <p className="text-xs font-bold text-white line-clamp-1">{card.title}</p>
                 {card.series_id && (
                   <p className="text-[10px] text-white/40">ID TMDB: {card.series_id}</p>
                 )}
+              </div>
+
+              {/* Inputs pour le bandeau et le survol */}
+              <div className="mt-2 space-y-1.5 border-t border-white/10 pt-2 flex-1">
+                <div>
+                  <label className="block text-[9px] font-semibold text-white/70">Titre bandeau (Gras)</label>
+                  <input
+                    type="text"
+                    value={card.header_title ?? ""}
+                    onChange={(e) => handleUpdateCardField(idx, "header_title", e.target.value)}
+                    placeholder="Ex: DISPONIBLE"
+                    className="mt-0.5 w-full rounded bg-white/5 px-2 py-1 text-xs text-white font-bold border border-white/10 focus:border-max-cyan focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] font-semibold text-white/70">Sous-titre bandeau</label>
+                  <input
+                    type="text"
+                    value={card.header_subtitle ?? ""}
+                    onChange={(e) => handleUpdateCardField(idx, "header_subtitle", e.target.value)}
+                    placeholder="Ex: TOUS LES LUNDIS"
+                    className="mt-0.5 w-full rounded bg-white/5 px-2 py-1 text-xs text-zinc-300 font-semibold border border-white/10 focus:border-max-cyan focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] font-semibold text-[#788d9f]">Genre (Survol)</label>
+                  <input
+                    type="text"
+                    value={card.genre ?? ""}
+                    onChange={(e) => handleUpdateCardField(idx, "genre", e.target.value)}
+                    placeholder="Ex: DRAME"
+                    className="mt-0.5 w-full rounded bg-white/5 px-2 py-1 text-xs text-[#788d9f] font-semibold border border-white/10 focus:border-max-cyan focus:outline-none"
+                  />
+                </div>
+                <div>
+                  <label className="block text-[9px] font-semibold text-white/70">Synopsis (Survol)</label>
+                  <textarea
+                    rows={2}
+                    value={card.synopsis ?? ""}
+                    onChange={(e) => handleUpdateCardField(idx, "synopsis", e.target.value)}
+                    placeholder="Synopsis / pitch..."
+                    className="mt-0.5 w-full rounded bg-white/5 px-2 py-1 text-[11px] text-white/90 border border-white/10 focus:border-max-cyan focus:outline-none resize-none"
+                  />
+                </div>
               </div>
 
               {/* Controls */}
@@ -377,15 +505,68 @@ export function UpcomingSeriesBannerManager({ initialConfig }: Props) {
               </div>
               <div className="flex gap-4 overflow-x-auto py-2 scrollbar-none">
                 {cards.map((c, i) => (
-                  <div key={i} className="relative flex flex-col w-40 shrink-0 aspect-[2/3] rounded-none overflow-hidden bg-zinc-950 shadow-lg">
+                  <div key={i} className="group relative flex flex-col w-48 shrink-0 rounded-none overflow-hidden bg-zinc-950 select-none">
                     <div
-                      className="w-full h-8 shrink-0 border-b border-white/10"
+                      className="relative flex flex-col items-center justify-center w-full h-14 sm:h-16 shrink-0 px-3 py-1.5 text-center select-none"
                       style={{
                         background: "linear-gradient(90deg, #352f34 0%, #404144 50%, #352f34 100%)"
                       }}
-                    />
-                    <div className="relative flex-1 w-full overflow-hidden">
+                    >
+                      {(c.header_title || c.badge) && (
+                        <span className="text-[13px] sm:text-[15px] md:text-base font-extrabold text-white tracking-wider uppercase leading-tight truncate max-w-full drop-shadow-sm">
+                          {c.header_title || c.badge}
+                        </span>
+                      )}
+                      {c.header_subtitle && (
+                        <span className="text-xs sm:text-[13px] md:text-sm font-semibold text-zinc-200 tracking-wide leading-tight mt-0.5 truncate max-w-full">
+                          {c.header_subtitle}
+                        </span>
+                      )}
+                      <div
+                        className="absolute bottom-0 left-0 right-0 h-[1px]"
+                        style={{
+                          background: "linear-gradient(90deg, #564f55 0%, #818183 50%, #564f55 100%)"
+                        }}
+                      />
+                      <div
+                        className="pointer-events-none absolute bottom-0 left-[68%] -translate-x-1/2 translate-y-1/2 flex items-center justify-center z-10"
+                        aria-hidden="true"
+                      >
+                        <div
+                          className="absolute w-8 h-4 rounded-full blur-[2px]"
+                          style={{
+                            background: "radial-gradient(ellipse at center, rgba(255, 255, 255, 0.7) 0%, rgba(255, 255, 255, 0.2) 45%, rgba(255, 255, 255, 0) 80%)"
+                          }}
+                        />
+                        <div
+                          className="absolute w-12 h-[1px]"
+                          style={{
+                            background: "linear-gradient(90deg, transparent 0%, rgba(255, 255, 255, 0.7) 50%, transparent 100%)"
+                          }}
+                        />
+                      </div>
+                    </div>
+                    <div className="relative aspect-[2/3] w-full overflow-hidden bg-zinc-900">
                       <img src={c.poster_url} alt={c.title} className="h-full w-full object-cover" />
+
+                      {/* Overlay au survol dans l'aperçu */}
+                      <div className="absolute inset-0 bg-black/90 backdrop-blur-[1px] opacity-0 group-hover:opacity-100 transition-opacity duration-200 flex flex-col justify-between items-center px-3 py-4 text-center">
+                        <div className="flex-1 flex flex-col items-center justify-center my-auto w-full px-1">
+                          {(c.genre || "SÉRIE") && (
+                            <span className="text-xs font-semibold tracking-wider text-[#788d9f] uppercase mb-2">
+                              {c.genre || "SÉRIE"}
+                            </span>
+                          )}
+                          <p className="text-xs font-normal text-white leading-relaxed line-clamp-5 text-center">
+                            {c.synopsis || `Découvrez prochainement ${c.title} sur la plateforme.`}
+                          </p>
+                        </div>
+                        <div className="w-full pt-3 pb-0.5 flex justify-center">
+                          <span className="w-full max-w-[170px] inline-flex items-center justify-center rounded-full border border-white bg-transparent px-3 py-1.5 text-xs font-bold uppercase tracking-wider text-white transition-colors duration-200 hover:bg-[#788d9f] hover:border-[#788d9f] hover:text-white">
+                            EN SAVOIR PLUS
+                          </span>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 ))}

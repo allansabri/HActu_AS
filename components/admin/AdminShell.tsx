@@ -33,6 +33,7 @@ const navGroups = [
       { label: "Articles", href: "/admin/articles", icon: FileText },
       { label: "News", href: "/admin/news", icon: Newspaper },
       { label: "Bandeau Séries", href: "/admin/series-a-venir", icon: Sparkles },
+      { label: "Bandes-Annonces", href: "/admin/bandes-annonces", icon: Video },
       { label: "Prochainement", href: "/admin/prochainement", icon: CalendarDays },
       { label: "Productions", href: "/admin/productions", icon: Film },
       { label: "Entreprises", href: "/admin/entreprises", icon: Building2 },

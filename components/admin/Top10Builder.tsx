@@ -43,7 +43,7 @@ export function Top10Builder({
   const [isPending, startTransition] = useTransition();
 
   const currentRanking = rankings[type];
-  const canSave = currentRanking.length === 10;
+  const canSave = currentRanking.length >= 1;
 
   const resultType = useMemo(() => (type === "movie" ? "movie" : "series"), [type]);
 
@@ -88,7 +88,7 @@ export function Top10Builder({
       setMessage(null);
       try {
         await saveTop10Ranking(rankingDate, type, currentRanking);
-        setMessage(`${labelForType(type)} sauvegardé : ${currentRanking.length}/10.`);
+        setMessage(`${labelForType(type)} sauvegardé : ${currentRanking.length} titre(s).`);
         router.refresh();
       } catch (error) {
         setMessage(error instanceof Error ? error.message : "Sauvegarde impossible");
@@ -128,7 +128,10 @@ export function Top10Builder({
 
       <div className="mt-5 grid gap-5 lg:grid-cols-[1fr_1fr]">
         <div>
-          <h2 className="text-xl font-black">Recherche TMDB</h2>
+          <h2 className="text-xl font-black">Recherche TMDB (Titre ou ID)</h2>
+          <p className="mt-1 text-xs text-white/60">
+            Recherchez par nom ou collez directement l'ID numérique TMDB (ex : 94605, 1399, 108978).
+          </p>
           <div className="mt-3 flex gap-2">
             <input
               value={query}
@@ -139,13 +142,13 @@ export function Top10Builder({
                   runSearch();
                 }
               }}
-              placeholder={`Rechercher dans les ${labelForType(type).toLowerCase()}`}
+              placeholder={`Titre ou ID TMDB direct (ex: 94605)...`}
               className="min-w-0 flex-1 rounded-md border border-white/10 bg-black/35 px-3 py-3 text-white outline-none focus:border-max-cyan"
             />
             <button
               type="button"
               onClick={runSearch}
-              disabled={isPending || query.trim().length < 2}
+              disabled={isPending || query.trim().length < 1}
               className="rounded-md bg-max-blue px-4 py-3 font-bold text-black disabled:opacity-50"
             >
               Chercher

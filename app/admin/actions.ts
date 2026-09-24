@@ -1033,8 +1033,33 @@ export async function searchTmdbProductions(query: string): Promise<TmdbSearchRe
 
 export async function searchTmdbTop10(query: string, type: ContentType): Promise<TmdbSearchResult[]> {
   await requireAdmin();
-  if (!query.trim() || query.trim().length < 2) return [];
-  const results = await searchTmdb(query.trim());
+  const trimmed = query.trim();
+  if (!trimmed) return [];
+
+  // Support direct TMDB numeric ID (ex : 94605, 1399, 108978)
+  if (/^\d+$/.test(trimmed)) {
+    try {
+      const tmdbType: TmdbMediaType = type === "series" ? "tv" : "movie";
+      const details = await getTmdbTitleDetails(tmdbType, Number(trimmed));
+      if (details) {
+        return [
+          {
+            tmdbId: details.tmdbId,
+            title: details.title,
+            originalTitle: details.originalTitle,
+            type: details.type,
+            releaseDate: details.releaseDate,
+            posterUrl: details.posterUrl,
+            overview: details.overview,
+          },
+        ];
+      }
+    } catch {
+      // fallback to text search
+    }
+  }
+
+  const results = await searchTmdb(trimmed);
   return results.filter((result) => result.type === type);
 }
 
@@ -1451,7 +1476,7 @@ export async function saveTop10Ranking(
 ) {
   await requireAdmin();
   if (!date) throw new Error("Date manquante.");
-  if (items.length !== 10) throw new Error("Le classement doit contenir exactement 10 titres.");
+  if (items.length < 1 || items.length > 10) throw new Error("Le classement doit contenir entre 1 et 10 titres.");
 
   const supabase = await createClient();
   const rows = items.map((item, index) => ({
@@ -1470,6 +1495,31 @@ export async function saveTop10Ranking(
   revalidatePath("/");
   revalidatePath("/top-10-france");
   revalidatePath("/admin/top-10");
+}
+
+export async function saveTop10SectionConfigAction(formData: FormData) {
+  await requireAdmin();
+  const sectionTitle = (formData.get("section_title") as string) ?? "";
+  const seriesSubtitle = (formData.get("series_subtitle") as string) ?? "";
+  const moviesSubtitle = (formData.get("movies_subtitle") as string) ?? "";
+
+  const payload = {
+    section_title: sectionTitle.trim(),
+    series_subtitle: seriesSubtitle.trim(),
+    movies_subtitle: moviesSubtitle.trim(),
+    limit: 5,
+  };
+
+  const supabase = await createClient();
+  const rows = [
+    { key: "top10_section_config", value: JSON.stringify(payload) },
+  ];
+
+  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/top-10");
+  return { success: true };
 }
 
 export async function prepareNewsDraft(formData: FormData) {
@@ -1736,5 +1786,21 @@ export async function saveUpcomingSeriesBannerAction(formData: FormData) {
   revalidatePath("/");
   revalidatePath("/admin/prochainement");
   revalidatePath("/admin/series-a-venir");
+  return { success: true };
+}
+
+export async function saveTrailersBannerAction(formData: FormData) {
+  await requireAdmin();
+  const configJson = text(formData, "config_json") || "{}";
+
+  const supabase = await createClient();
+  const rows = [
+    { key: "trailers_banner_config", value: configJson }
+  ];
+
+  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/bandes-annonces");
   return { success: true };
 }

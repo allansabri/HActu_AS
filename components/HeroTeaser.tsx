@@ -223,8 +223,9 @@ export function HeroTeaser({ items = DEFAULT_HERO_ITEMS }: { items?: HeroTeaserI
       <div className="absolute bottom-0 inset-x-0 h-16 bg-gradient-to-t from-[#050a0a] to-transparent pointer-events-none z-20" />
 
       {/* 4. Couche interactive avant-plan (Z-30) : 100% cliquable */}
-      <div className="relative z-30 flex flex-col justify-end h-full px-4 sm:px-6 lg:px-8 pb-8 sm:pb-12 pointer-events-auto">
-        <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full">
+      <div className="relative z-30 flex flex-col justify-end h-full w-full pointer-events-auto">
+        <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 pb-8 sm:pb-12">
+          <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-6 w-full">
           
           {/* À GAUCHE : Titre, Catégorie / Genres, Synopsis et Boutons EN SAVOIR PLUS + Son */}
           <div className="flex flex-col items-start text-left max-w-lg lg:max-w-xl order-1">
@@ -318,7 +319,7 @@ export function HeroTeaser({ items = DEFAULT_HERO_ITEMS }: { items?: HeroTeaserI
               );
             })}
           </div>
-
+        </div>
         </div>
       </div>
     </section>
