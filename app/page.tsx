@@ -7,16 +7,38 @@ import { HeroTeaser } from "@/components/HeroTeaser";
 import { UpcomingSeriesBanner } from "@/components/UpcomingSeriesBanner";
 import { LatestTrailersBanner } from "@/components/LatestTrailersBanner";
 import { HomeTop10Section } from "@/components/HomeTop10Section";
+import { MoreNewsSection } from "@/components/MoreNewsSection";
+import { NewAndUpcomingSection } from "@/components/NewAndUpcomingSection";
+import { SportsLiveSection } from "@/components/SportsLiveSection";
+import { UpcomingEpisodesSection } from "@/components/UpcomingEpisodesSection";
+import { ProductionsInProgressSection } from "@/components/ProductionsInProgressSection";
+import { SeriesReviewsSection } from "@/components/SeriesReviewsSection";
+import { AuthorsSection } from "@/components/AuthorsSection";
 import { formatDate, youtubeId } from "@/lib/format";
 import { titleHref } from "@/lib/links";
 import { getUpcomingSeriesBanner } from "@/lib/upcoming-banner";
 import { getTrailersBannerConfig } from "@/lib/trailers-banner";
 import { getTop10Config } from "@/lib/top10-config";
+import { getMoreNewsConfig } from "@/lib/more-news-config";
+import { getSportsSectionConfig } from "@/lib/sports-config";
+import { getUpcomingEpisodesConfig } from "@/lib/upcoming-episodes-config";
+import { getSeriesReviewsConfig } from "@/lib/reviews-config";
+import { getAuthorsSectionConfig, syncAuthorsWithArticles } from "@/lib/authors-config";
+import {
+  getNewAndUpcomingConfig,
+  calculateNewAndUpcomingMetrics,
+  buildUpcomingReleaseCards,
+  buildMovieCards,
+  defaultNewReleaseCards,
+  defaultMovieCards,
+} from "@/lib/new-and-upcoming-config";
+import { getUpcomingReleases } from "@/lib/upcoming";
 import { demoArticles } from "@/lib/demo-data";
 import {
   getArticlesByCategory,
   getCollections,
   getLatestArticles,
+  getProductionProjects,
   getProductionsByType,
   getTop10,
   getTrailerArticles,
@@ -25,30 +47,6 @@ import {
 import { Article, ProductionProject } from "@/lib/types";
 
 export const revalidate = 60;
-
-function NewsletterSection({ state }: { state?: string }) {
-  return (
-    <section id="newsletter" className="rounded-2xl border border-white/10 bg-white/[0.035] p-5">
-      <div className="uppercase tracking-[1.5px] text-[10px] font-bold text-max-cyan">Newsletter</div>
-      <h3 className="mt-1.5 text-[17px] font-black leading-tight">Les sorties Max avant tout le monde.</h3>
-      <form action={subscribeNewsletter} className="mt-4 space-y-2.5">
-        <input
-          name="email"
-          type="email"
-          required
-          placeholder="votre@email.com"
-          className="w-full rounded-full border border-white/10 bg-black/40 px-4 py-2.5 text-sm placeholder:text-white/40 focus:border-max-cyan focus:outline-none"
-        />
-        <button className="w-full rounded-full bg-white py-2.5 text-sm font-bold text-black transition hover:bg-max-cyan">
-          Je m’abonne gratuitement
-        </button>
-      </form>
-      {state === "ok" && <p className="mt-2 text-sm text-emerald-400">Merci ! Inscription confirmée.</p>}
-      {state === "invalid" && <p className="mt-2 text-sm text-red-300">Email invalide.</p>}
-      {state === "unavailable" && <p className="mt-2 text-sm text-yellow-300">Service newsletter non configuré.</p>}
-    </section>
-  );
-}
 
 function ArticleRowCard({ article, index = 0 }: { article: Article; index?: number }) {
   return (
@@ -116,20 +114,87 @@ export default async function HomePage({
   searchParams: Promise<{ newsletter?: string }>;
 }) {
   const params = await searchParams;
-  const [articles, top10, trailers, upcoming, series, movies, upcomingSeriesBanner, cinemaArticles, trailersBannerConfig, top10Config] = await Promise.all([
-    getLatestArticles(16),
+  const [
+    articles,
+    top10,
+    trailers,
+    upcoming,
+    series,
+    movies,
+    upcomingSeriesBanner,
+    cinemaArticles,
+    trailersBannerConfig,
+    top10Config,
+    moreNewsConfig,
+    newAndUpcomingConfig,
+    upcomingReleases,
+    sportsConfig,
+    upcomingEpisodesConfig,
+    allProductionProjects,
+    seriesReviewsConfig,
+    authorsConfig,
+  ] = await Promise.all([
+    getLatestArticles(40),
     getTop10(),
     getTrailerArticles(3),
     getUpcomingProductionProjects(6),
     getProductionsByType("series", 8),
-    getProductionsByType("movie", 8),
+    getProductionsByType("movie", 20),
     getUpcomingSeriesBanner(),
     getArticlesByCategory("Cinéma"),
     getTrailersBannerConfig(),
     getTop10Config(),
+    getMoreNewsConfig(),
+    getNewAndUpcomingConfig(),
+    getUpcomingReleases(),
+    getSportsSectionConfig(),
+    getUpcomingEpisodesConfig(),
+    getProductionProjects(),
+    getSeriesReviewsConfig(),
+    getAuthorsSectionConfig(),
   ]);
 
+  // Calcul automatique des statistiques et cartes pour la section Nouveauté & À venir
+  const dynamicNewAndUpcomingConfig = calculateNewAndUpcomingMetrics(
+    upcomingReleases,
+    movies,
+    newAndUpcomingConfig
+  );
+
+  const dynamicReleaseCards = buildUpcomingReleaseCards(
+    upcomingReleases,
+    defaultNewReleaseCards
+  );
+
+  const dynamicMovieCards = buildMovieCards(
+    upcomingReleases,
+    movies,
+    defaultMovieCards
+  );
+
   const moreNews = articles.slice(0, 4);
+
+  // Synchronisation dynamique des auteurs avec les derniers articles publiés
+  const dynamicAuthorsConfig = {
+    ...authorsConfig,
+    items: syncAuthorsWithArticles(authorsConfig.items, articles),
+  };
+
+  // Articles pour la section « Encore plus d'actualités » (9 pour la grille 3×3 + 5 pour la colonne latérale)
+  const topSlugs = moreNews.map((a) => a.slug);
+  const usedTopSlugs = new Set(topSlugs);
+  const availableAfterTop = articles.filter((a) => !usedTopSlugs.has(a.slug));
+  const encorePlusArticles = availableAfterTop.slice(0, 9);
+
+  const usedEncoreSlugs = new Set([
+    ...topSlugs,
+    ...encorePlusArticles.map((a) => a.slug),
+  ]);
+  const encorePlusSidebar = [
+    ...availableAfterTop.slice(9),
+    ...demoArticles.filter((a) => !usedEncoreSlugs.has(a.slug)),
+  ].slice(0, 5);
+
   const cinemaFiltered = [
     ...(cinemaArticles || []),
     ...articles.filter((a) => {
@@ -158,6 +223,47 @@ export default async function HomePage({
     }
     if (cinemaCards.length >= 5 && cinemaSidebarArticles.length >= 8) break;
   }
+
+  const hboFiltered = [
+    ...articles.filter((a) => {
+      const cat = (a.category || "").toLowerCase();
+      const title = (a.title || "").toLowerCase();
+      return cat.includes("hbo") || cat.includes("max") || title.includes("hbo") || title.includes("max");
+    }),
+    ...demoArticles.filter((a) => {
+      const cat = (a.category || "").toLowerCase();
+      const title = (a.title || "").toLowerCase();
+      return cat.includes("hbo") || cat.includes("max") || title.includes("hbo") || title.includes("max");
+    }),
+    ...articles,
+  ];
+  const seenHbo = new Set<string>();
+  const hboCards: Article[] = [];
+  const hboSidebarArticles: Article[] = [];
+  for (const art of hboFiltered) {
+    if (!seenHbo.has(art.slug)) {
+      seenHbo.add(art.slug);
+      if (hboCards.length < 5) {
+        hboCards.push(art);
+      } else if (hboSidebarArticles.length < 8) {
+        hboSidebarArticles.push(art);
+      }
+    }
+    if (hboCards.length >= 5 && hboSidebarArticles.length >= 8) break;
+  }
+
+  const inProgressStatuses = [
+    "en développement",
+    "pré-production",
+    "en tournage",
+    "post-production",
+    "prêt à diffuser",
+    "upcoming",
+  ];
+  const productionsInProgress = (allProductionProjects || []).filter((p) => {
+    const s = (p.status || "").toLowerCase();
+    return inProgressStatuses.some((status) => s.includes(status)) || !s.includes("sorti");
+  });
 
   const recentProductions = [...series.slice(0, 4), ...movies.slice(0, 4)];
 
@@ -288,6 +394,117 @@ export default async function HomePage({
       {/* Section : Les plus populaires sur HBO Max (Top 5 Séries à gauche + Top 5 Films à droite) */}
       <HomeTop10Section items={top10} config={top10Config} />
 
+      {/* Nouvelle section : Encore plus d'actualités (9 articles en 3×3 à gauche + Newsletter & articles carrés à droite) */}
+      <MoreNewsSection
+        articles={encorePlusArticles}
+        sidebarArticles={encorePlusSidebar}
+        config={moreNewsConfig}
+        newsletterState={params.newsletter}
+      />
+
+      {/* Section : Nouveauté & À venir sur HBO Max connectée automatiquement au catalogue Prochainement */}
+      <NewAndUpcomingSection
+        config={dynamicNewAndUpcomingConfig}
+        cards={dynamicReleaseCards}
+        movieCards={dynamicMovieCards}
+      />
+
+      {/* Section : Événements sportifs en direct sur HBO Max (Eurosport) */}
+      <SportsLiveSection config={sportsConfig} />
+
+      {/* Section : Les actualités de HBO et HBO Max */}
+      <section
+        id="section-hbo-max"
+        aria-label="Les actualités de HBO et HBO Max"
+        className="w-full bg-gradient-to-b from-[#0e171f] to-[#050a0a] py-8 sm:py-10 lg:py-12"
+      >
+        <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+          <div className="mb-6">
+            <h2 className="text-2xl font-semibold tracking-tight text-white">Les actualités de HBO et HBO Max</h2>
+          </div>
+
+          <div className="flex flex-col lg:flex-row items-stretch justify-between gap-6 lg:gap-8 xl:gap-10">
+            {/* Colonne gauche : 2 grandes cartes en haut + 3 moins grandes en dessous */}
+            <div className="w-full lg:w-[680px] xl:w-[700px] shrink-0 flex flex-col justify-between">
+              {/* 2 grandes cartes côte à côte */}
+              <div className="flex flex-col sm:flex-row gap-5">
+                {hboCards.slice(0, 2).map((article, index) => (
+                  <div key={article.id || index} className="w-full sm:w-[330px] xl:w-[340px] shrink-0">
+                    <ArticleCard
+                      article={article}
+                      index={index}
+                      large={true}
+                      imageHeight="h-[225px] sm:h-[250px]"
+                    />
+                  </div>
+                ))}
+              </div>
+
+              {/* 3 cartes moins grandes en dessous */}
+              <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 sm:gap-4.5 mt-6">
+                {hboCards.slice(2, 5).map((article, index) => (
+                  <ArticleCard key={article.id || index + 2} article={article} index={index + 2} large={false} />
+                ))}
+              </div>
+            </div>
+
+            {/* Colonne à droite : liste des articles HBO et HBO Max */}
+            <div className="w-full lg:flex-1 min-w-0 flex flex-col mt-6 lg:mt-0">
+              <div className="flex flex-col justify-between h-full gap-2 sm:gap-2.5">
+                {hboSidebarArticles.map((article, index) => (
+                  <Link
+                    key={article.id || index}
+                    href={`/actualites/${article.slug}`}
+                    className="group flex items-center gap-3.5 p-1 sm:p-1.5 rounded-none transition-all duration-200 hover:bg-white/[0.04]"
+                  >
+                    {/* Card au format carré à gauche */}
+                    <div className="relative aspect-square w-18 h-18 sm:w-20 sm:h-20 md:w-[78px] md:h-[78px] rounded-none overflow-hidden shrink-0 bg-neutral-900 border border-white/10 shadow-md group-hover:border-[#7a8fa1]/50 transition-colors">
+                      <img
+                        src={article.image_url || "/max-reference-bg.png"}
+                        alt={article.title}
+                        className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+                      />
+                    </div>
+
+                    {/* Titre centré verticalement par rapport à la card */}
+                    <div className="flex flex-col justify-center min-w-0 flex-1">
+                      <time className="text-[11px] sm:text-xs font-normal text-neutral-400">
+                        {formatDate(article.published_at || article.created_at)}
+                      </time>
+                      <h4 className="mt-0.5 text-xs sm:text-[13.5px] font-extrabold uppercase leading-snug tracking-tight text-white group-hover:text-[#7a8fa1] transition-colors line-clamp-2">
+                        {article.title}
+                      </h4>
+                      <span className="mt-0.5 text-[10px] sm:text-[11px] font-semibold text-neutral-300">
+                        {article.category || "HBO Max"}
+                      </span>
+                    </div>
+                  </Link>
+                ))}
+              </div>
+            </div>
+          </div>
+
+          {/* Bouton en pilule */}
+          <div className="mt-8 flex justify-center">
+            <Link
+              href="/actualites?tab=hbo"
+              className="inline-flex items-center justify-center rounded-full bg-[#8197a9] px-7 py-3 text-sm sm:text-[15px] font-semibold text-white shadow-md transition-all duration-200 hover:bg-[#a5abb2] hover:shadow-lg active:scale-[0.99]"
+            >
+              Voir toutes les actualités HBO et HBO Max
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* Section : Prochainement sur HBO Max (Nouveaux épisodes de la semaine) */}
+      <UpcomingEpisodesSection config={upcomingEpisodesConfig} />
+
+      {/* Section : Les critiques des séries (note sur 5, avatar et auteur) */}
+      <SeriesReviewsSection config={seriesReviewsConfig} />
+
+      {/* Section : Nos auteurs (dégradé personnalisé, cartes d'auteurs 4 par ligne) */}
+      <AuthorsSection config={dynamicAuthorsConfig} />
+
       {/* Section 2 : Nouveautés sur Max */}
       <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] py-8 sm:py-10 lg:py-12">
         <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
@@ -342,41 +559,35 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* Section 4 : Newsletter + Extraits & Bandes-annonces */}
-      <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] py-8 sm:py-10 lg:py-12">
-        <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-          <div className="grid gap-6 lg:grid-cols-12 items-start">
-            <div className="lg:col-span-5">
-              <NewsletterSection state={params.newsletter} />
+      {/* Section Extraits & Bandes-annonces si présents */}
+      {trailers.length > 0 && (
+        <section className="w-full bg-gradient-to-b from-[#050a0a] to-[#0e171f] py-8 sm:py-10 lg:py-12">
+          <div className="mx-auto w-full max-w-[1400px] px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+            <div className="mb-4 flex items-center justify-between">
+              <h3 className="text-2xl font-semibold tracking-tight text-white">Extraits &amp; Bandes-annonces</h3>
+              <Link href="/bandes-annonces" className="text-xs font-bold text-max-cyan hover:text-white">Toutes →</Link>
             </div>
-
-            <div className="space-y-6 lg:col-span-7">
-              {trailers.length > 0 && (
-                <div>
-                  <div className="mb-3 flex items-center justify-between">
-                    <h3 className="text-xl font-black tracking-tight">Extraits &amp; Bandes-annonces</h3>
-                    <Link href="/bandes-annonces" className="text-xs font-bold text-max-cyan hover:text-white">Toutes →</Link>
-                  </div>
-                  <div className="grid gap-3 sm:grid-cols-2 lg:grid-cols-3">
-                    {trailers.map((article) => {
-                      const id = youtubeId(article.youtube_video_url);
-                      return (
-                        <Link key={article.id} href={`/actualites/${article.slug}`} className="group overflow-hidden rounded-xl border border-white/10 bg-white/[0.03] transition hover:border-white/25">
-                          {id && <iframe className="aspect-video w-full" src={`https://www.youtube.com/embed/${id}`} title={article.title} allowFullScreen />}
-                          <div className="p-3">
-                            <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-max-cyan">{article.category}</p>
-                            <h4 className="mt-1 line-clamp-2 text-[15px] font-black leading-tight group-hover:text-max-cyan">{article.title}</h4>
-                          </div>
-                        </Link>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
+            <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+              {trailers.map((article) => {
+                const id = youtubeId(article.youtube_video_url);
+                return (
+                  <Link
+                    key={article.id}
+                    href={`/actualites/${article.slug}`}
+                    className="group overflow-hidden rounded-none border border-white/10 bg-white/[0.03] transition hover:border-white/25"
+                  >
+                    {id && <iframe className="aspect-video w-full" src={`https://www.youtube.com/embed/${id}`} title={article.title} allowFullScreen />}
+                    <div className="p-4">
+                      <p className="text-[10px] font-bold uppercase tracking-[0.16em] text-max-cyan">{article.category}</p>
+                      <h4 className="mt-1 line-clamp-2 text-[15px] font-black leading-tight text-white group-hover:text-max-cyan">{article.title}</h4>
+                    </div>
+                  </Link>
+                );
+              })}
             </div>
           </div>
-        </div>
-      </section>
+        </section>
+      )}
     </main>
   );
 }

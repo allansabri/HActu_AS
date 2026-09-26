@@ -329,6 +329,108 @@ La série sera diffusée en exclusivité mondiale sur la [plateforme officielle 
     published_at: "2026-04-28T16:00:00.000Z",
     created_at: "2026-04-28T16:00:00.000Z",
     updated_at: now
+  },
+  {
+    id: "article-harry-potter-serie",
+    title: "« HARRY POTTER » | LA NOUVELLE SÉRIE ORIGINALE HBO DÉMARRE SES CASTINGS POUR UNE DÉCENNIE",
+    slug: "harry-potter-nouvelle-serie-originale-hbo-castings",
+    content:
+      "Warner Bros. et HBO préparent l'adaptation fidèle des sept tomes de J.K. Rowling sous la forme d'une série événement qui s'étendra sur plus de dix ans avec une toute nouvelle génération d'acteurs.",
+    excerpt:
+      "L'univers magique de Poudlard s'apprête à renaître dans une saga télévisée monumentale produite par HBO.",
+    image_url: tmdbImage("/577eXC8wFQT0eUrJcgznSiFPRmk.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=kYJvK6dI4QY",
+    category: "HBO",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-24T14:30:00.000Z",
+    created_at: "2026-04-24T14:30:00.000Z",
+    updated_at: now
+  },
+  {
+    id: "article-succession-heritage",
+    title: "« SUCCESSION » | RETOUR SUR LE PHÉNOMÈNE HISTORIQUE HBO QUI CONTINUE DE FASCINER",
+    slug: "succession-retour-sur-le-phenomene-historique-hbo",
+    content:
+      "Plongez dans l'héritage de la famille Roy. Analyse d'une des séries dramatiques les plus récompensées de l'histoire de la télévision américaine, disponible en exclusivité sur Max.",
+    excerpt:
+      "Les quatre saisons du chef-d'œuvre de Jesse Armstrong continuent de captiver de nouveaux spectateurs sur Max.",
+    image_url: tmdbImage("/77tEN7Xk4rG91hG1qK3g9z1wDq9.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=uLtkt8BonwM",
+    category: "HBO",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-20T10:00:00.000Z",
+    created_at: "2026-04-20T10:00:00.000Z",
+    updated_at: now
+  },
+  {
+    id: "article-joker-folie-a-deux",
+    title: "« JOKER : FOLIE À DEUX » | JOAQUIN PHOENIX ET LADY GAGA ÉLECTRISENT LES SALLES DE CINÉMA",
+    slug: "joker-folie-a-deux-joaquin-phoenix-lady-gaga-cinema",
+    content:
+      "Todd Phillips revient avec la suite très attendue du Joker, mêlant romance musicale fiévreuse et drame psychologique intense avec le duo Joaquin Phoenix et Lady Gaga.",
+    excerpt:
+      "L'événement cinématographique Warner Bros. Pictures qui a secoué la Mostra de Venise débarque au cinéma.",
+    image_url: tmdbImage("/cfT29Im5VDvjE0RpyKOSdCKZal7.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=DotnJ7tTA34",
+    category: "Cinéma",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-16T17:15:00.000Z",
+    created_at: "2026-04-16T17:15:00.000Z",
+    updated_at: now
+  },
+  {
+    id: "article-matrix-5-warner",
+    title: "« MATRIX » | WARNER BROS. DÉVELOPPE UN CINQUIÈME VOLET INÉDIT RÉALISÉ PAR DREW GODDARD",
+    slug: "matrix-5-nouveau-volet-warner-bros-drew-goddard",
+    content:
+      "La saga culte de science-fiction cyberpunk initiée par les Wachowski reviendra sur grand écran avec une nouvelle vision signée Drew Goddard.",
+    excerpt:
+      "Warner Bros. Pictures confirme l'expansion de l'univers Matrix avec un nouveau long métrage ambitieux.",
+    image_url: tmdbImage("/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=Way9Dexny3w",
+    category: "Cinéma",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-12T11:45:00.000Z",
+    created_at: "2026-04-12T11:45:00.000Z",
+    updated_at: now
+  },
+  {
+    id: "article-chernobyl-culte",
+    title: "« CHERNOBYL » | LA MINI-SÉRIE COURONNÉE AUX EMMY AWARDS À REDÉCOUVRIR EN 4K SUR MAX",
+    slug: "chernobyl-mini-serie-evenement-hbo-disponible-4k-max",
+    content:
+      "Créée par Craig Mazin, la mini-série bouleversante retraçant la catastrophe nucléaire de 1986 et le courage des liquidateurs reste l'une des productions les plus poignantes de HBO.",
+    excerpt:
+      "Redécouvrez la reconstitution magistrale de Craig Mazin et Johan Renck dans une qualité d'image exceptionnelle.",
+    image_url: tmdbImage("/577eXC8wFQT0eUrJcgznSiFPRmk.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=kYJvK6dI4QY",
+    category: "HBO",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-08T09:00:00.000Z",
+    created_at: "2026-04-08T09:00:00.000Z",
+    updated_at: now
+  },
+  {
+    id: "article-lanterns-casting-complet",
+    title: "« LANTERNS » | KYLE CHANDLER ET AARON PIERRE EN TÊTE D'AFFICHE DE LA NOUVELLE SÉRIE DC",
+    slug: "lanterns-kyle-chandler-aaron-pierre-serie-dc-hbo",
+    content:
+      "Hal Jordan et John Stewart mèneront une enquête policière terrestre sombre dans le style de True Detective pour DC Studios et HBO.",
+    excerpt:
+      "La nouvelle série phare du DC Universe de James Gunn réunit un duo d'acteurs de premier plan pour HBO.",
+    image_url: tmdbImage("/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", "w1280"),
+    youtube_video_url: "https://www.youtube.com/watch?v=mqqft2x_Aa4",
+    category: "HBO",
+    status: "published",
+    author_id: null,
+    published_at: "2026-04-04T15:20:00.000Z",
+    created_at: "2026-04-04T15:20:00.000Z",
+    updated_at: now
   }
 ];
 
@@ -618,29 +720,29 @@ export const demoCollections: AdminCollection[] = [
 ];
 
 const defaultDemoSeries = [
-  { title: "The Last of Us", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg" },
-  { title: "House of the Dragon", poster: "/lP73xk4HGJ9CPxDWouzKzK6j82o.jpg" },
-  { title: "Game of Thrones", poster: "/eRMfekBOnwyE9G0ffyEJIBOjX2n.jpg" },
-  { title: "The Penguin", poster: "/aKaZpB4wXmG0x4eJ2t2WcO1D4Fk.jpg" },
-  { title: "Succession", poster: "/77tEN7Xk4rG91hG1qK3g9z1wDq9.jpg" },
-  { title: "The White Lotus", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg" },
-  { title: "Euphoria", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg" },
-  { title: "True Detective", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg" },
-  { title: "Chernobyl", poster: "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg" },
-  { title: "Les Soprano", poster: "/2OMB0ynKlyIenMJWI2Dy9IWT4c.jpg" },
+  { title: "The Last of Us", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg", days_in_top: 7, days_in_top_1: 7, rank_diff: 0 },
+  { title: "House of the Dragon", poster: "/lP73xk4HGJ9CPxDWouzKzK6j82o.jpg", days_in_top: 14, days_in_top_1: 7, rank_diff: -1 },
+  { title: "Game of Thrones", poster: "/eRMfekBOnwyE9G0ffyEJIBOjX2n.jpg", days_in_top: 42, rank_diff: 1 },
+  { title: "The Penguin", poster: "/aKaZpB4wXmG0x4eJ2t2WcO1D4Fk.jpg", days_in_top: 5, rank_diff: 0 },
+  { title: "Succession", poster: "/77tEN7Xk4rG91hG1qK3g9z1wDq9.jpg", days_in_top: 1, is_new: true, rank_diff: null },
+  { title: "The White Lotus", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg", days_in_top: 8, rank_diff: 0 },
+  { title: "Euphoria", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg", days_in_top: 20, rank_diff: -2 },
+  { title: "True Detective", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", days_in_top: 3, rank_diff: 1 },
+  { title: "Chernobyl", poster: "/577eXC8wFQT0eUrJcgznSiFPRmk.jpg", days_in_top: 15, rank_diff: 0 },
+  { title: "Les Soprano", poster: "/2OMB0ynKlyIenMJWI2Dy9IWT4c.jpg", days_in_top: 30, rank_diff: 0 },
 ];
 
 const defaultDemoMovies = [
-  { title: "The Batman", poster: "/t9JGg10CW1DzXEdWL54ewkUko6N.jpg" },
-  { title: "Dune : Deuxième partie", poster: "/iRNbRAIGQQr5diGnjpwJFm0dgt4.jpg" },
-  { title: "The Dark Knight : Le Chevalier noir", poster: "/pyNXnq8QBWoK3b37RS6C3axwUOy.jpg" },
-  { title: "Furiosa : Une saga Mad Max", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg" },
-  { title: "Beetlejuice Beetlejuice", poster: "/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg" },
-  { title: "Joker : Folie à Deux", poster: "/cfT29Im5VDvjE0RpyKOSdCKZal7.jpg" },
-  { title: "Barbie", poster: "/DotnJ7tTA34.jpg" },
-  { title: "Interstellar", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg" },
-  { title: "Inception", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg" },
-  { title: "Matrix", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg" },
+  { title: "The Batman", poster: "/t9JGg10CW1DzXEdWL54ewkUko6N.jpg", days_in_top: 6, rank_diff: 1 },
+  { title: "Dune : Deuxième partie", poster: "/iRNbRAIGQQr5diGnjpwJFm0dgt4.jpg", days_in_top: 12, days_in_top_1: 5, rank_diff: -1 },
+  { title: "The Dark Knight : Le Chevalier noir", poster: "/pyNXnq8QBWoK3b37RS6C3axwUOy.jpg", days_in_top: 25, rank_diff: 0 },
+  { title: "Furiosa : Une saga Mad Max", poster: "/4pMd9VAdqm96KA2W4X8yetgc7EF.jpg", days_in_top: 4, rank_diff: 2 },
+  { title: "Beetlejuice Beetlejuice", poster: "/rvtdN5XkWAfGX6xDuPL6yYS2seK.jpg", days_in_top: 1, is_new: true, rank_diff: null },
+  { title: "Joker : Folie à Deux", poster: "/cfT29Im5VDvjE0RpyKOSdCKZal7.jpg", days_in_top: 9, rank_diff: -1 },
+  { title: "Barbie", poster: "/DotnJ7tTA34.jpg", days_in_top: 18, rank_diff: 0 },
+  { title: "Interstellar", poster: "/acevLdSl5I2MK5RYAm7gwAndt1w.jpg", days_in_top: 40, rank_diff: 0 },
+  { title: "Inception", poster: "/xOMo8BRK7PfcJv9JCnx7s5hj0PX.jpg", days_in_top: 22, rank_diff: 1 },
+  { title: "Matrix", poster: "/bU8wVjDqWbJqN1fCjW6W1p9D7F9.jpg", days_in_top: 16, rank_diff: -1 },
 ];
 
 export function demoTop10(date = todayIso()): Top10Item[] {
@@ -652,6 +754,10 @@ export function demoTop10(date = todayIso()): Top10Item[] {
     title: s.title,
     image_url: tmdbImage(s.poster),
     created_at: now,
+    days_in_top: s.days_in_top,
+    days_in_top_1: s.days_in_top_1,
+    rank_diff: s.rank_diff,
+    is_new: s.is_new,
   }));
 
   const movieItems: Top10Item[] = defaultDemoMovies.map((m, index) => ({
@@ -662,6 +768,10 @@ export function demoTop10(date = todayIso()): Top10Item[] {
     title: m.title,
     image_url: tmdbImage(m.poster),
     created_at: now,
+    days_in_top: m.days_in_top,
+    days_in_top_1: m.days_in_top_1,
+    rank_diff: m.rank_diff,
+    is_new: m.is_new,
   }));
 
   return [...seriesItems, ...movieItems];

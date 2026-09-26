@@ -334,6 +334,30 @@ export async function getTmdbPosters(mediaType: TmdbMediaType, id: number): Prom
     }));
 }
 
+export type TmdbBackdrop = {
+  url: string;
+  voteAverage: number;
+  width: number;
+  height: number;
+};
+
+export async function getTmdbBackdrops(mediaType: TmdbMediaType, id: number): Promise<TmdbBackdrop[]> {
+  const data = await tmdbFetch<{ backdrops: TmdbImage[] }>(`/${mediaType}/${id}/images`, {
+    include_image_language: "null,en"
+  });
+
+  return (data.backdrops || [])
+    .filter((img) => img.file_path && (img.iso_639_1 === null || img.iso_639_1 === ""))
+    .sort((a, b) => b.vote_average - a.vote_average)
+    .slice(0, 18)
+    .map((img) => ({
+      url: backdropUrl(img.file_path) || "",
+      voteAverage: img.vote_average,
+      width: (img as any).width || 1920,
+      height: (img as any).height || 1080
+    }));
+}
+
 export async function getTmdbPerson(id: number): Promise<TmdbPerson> {
   const person = await tmdbFetch<TmdbPersonDetails>(`/person/${id}`, {
     append_to_response: "combined_credits"

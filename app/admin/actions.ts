@@ -5,6 +5,7 @@ import { redirect } from "next/navigation";
 import { requireAdmin } from "@/lib/auth";
 import { slugify, todayIso } from "@/lib/format";
 import { createClient } from "@/lib/supabase-server";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 import { findTmdbTitle, getTmdbPosters, getTmdbProduction, getTmdbTitleDetails, searchTmdb, TmdbMediaType, TmdbPoster, TmdbSearchResult } from "@/lib/tmdb";
 import { syncTmdbProductions } from "@/lib/production-sync";
 import { knownSeriesCatalog } from "@/lib/upcoming-banner";
@@ -33,6 +34,21 @@ function articlePayload(formData: FormData, authorId: string) {
   const slug = text(formData, "slug") || slugify(title);
   const status = (text(formData, "status") || "draft") as "draft" | "published" | "scheduled";
 
+  const checkedCategories = formData.getAll("categories").map(String).map((s) => s.trim()).filter(Boolean);
+  const directCategory = text(formData, "category");
+  const customCategory = text(formData, "custom_category");
+
+  const categorySet = new Set<string>();
+  checkedCategories.forEach((c) => categorySet.add(c));
+  if (directCategory) {
+    directCategory.split(",").map((s) => s.trim()).filter(Boolean).forEach((c) => categorySet.add(c));
+  }
+  if (customCategory) {
+    customCategory.split(",").map((s) => s.trim()).filter(Boolean).forEach((c) => categorySet.add(c));
+  }
+
+  const category = categorySet.size > 0 ? Array.from(categorySet).join(", ") : "Actualités";
+
   return {
     title,
     slug,
@@ -40,12 +56,24 @@ function articlePayload(formData: FormData, authorId: string) {
     excerpt: text(formData, "excerpt"),
     image_url: text(formData, "image_url"),
     youtube_video_url: text(formData, "youtube_video_url"),
-    category: text(formData, "category") || "Actualités",
+    category,
     status,
     author_id: authorId,
     seo_title: text(formData, "seo_title"),
     seo_description: text(formData, "seo_description"),
-    related_content: text(formData, "related_content"),
+    related_content: (() => {
+      const authorName = text(formData, "author_name") || "Allan";
+      const rawRelated = text(formData, "related_content");
+      if (rawRelated && !rawRelated.startsWith("author:")) {
+        return `author:${authorName} | ${rawRelated}`;
+      } else if (!rawRelated) {
+        return `author:${authorName}`;
+      } else {
+        const parts = rawRelated.split(" | ");
+        parts[0] = `author:${authorName}`;
+        return parts.join(" | ");
+      }
+    })(),
     published_at: status === "published" || status === "scheduled" ? text(formData, "published_at") || new Date().toISOString() : null
   };
 }
@@ -1383,6 +1411,7 @@ export async function deleteUpcomingRelease(formData: FormData) {
   await supabase.from("upcoming_trailers").delete().eq("release_id", id);
   const { error } = await supabase.from("upcoming_releases").delete().eq("id", id);
   if (error) throw new Error(error.message);
+  revalidatePath("/");
   revalidatePath("/prochainement");
   revalidatePath("/admin/prochainement");
 }
@@ -1418,6 +1447,7 @@ export async function importTmdbUpcoming(mediaType: TmdbMediaType, tmdbId: numbe
   const { error } = await supabase.from("upcoming_releases").upsert(payload, { onConflict: "tmdb_id,tmdb_media_type" });
   if (error) throw new Error(`${error.message}. Si la table n'existe pas encore, applique supabase-upcoming.sql dans Supabase.`);
 
+  revalidatePath("/");
   revalidatePath("/prochainement");
   revalidatePath("/admin/prochainement");
 }
@@ -1472,7 +1502,15 @@ export async function importTop10(formData: FormData) {
 export async function saveTop10Ranking(
   date: string,
   type: ContentType,
-  items: Array<{ title: string; image_url: string | null }>
+  items: Array<{
+    title: string;
+    image_url: string | null;
+    days_in_top?: number;
+    previous_rank?: number | null;
+    rank_diff?: number | null;
+    is_new?: boolean;
+    days_in_top_1?: number;
+  }>
 ) {
   await requireAdmin();
   if (!date) throw new Error("Date manquante.");
@@ -1492,6 +1530,28 @@ export async function saveTop10Ranking(
   });
 
   if (error) throw new Error(error.message);
+
+  // Enregistrer les métadonnées de stats (jours dans le top, évolution +/-) dans site_settings
+  try {
+    const metaPayload = items.map((item, index) => ({
+      rank: index + 1,
+      title: item.title,
+      days_in_top: item.days_in_top ?? 1,
+      previous_rank: item.previous_rank,
+      rank_diff: item.rank_diff,
+      is_new: item.is_new,
+      days_in_top_1: item.days_in_top_1,
+    }));
+
+    const metaRows = [
+      { key: `top10_meta_${date}_${type}`, value: JSON.stringify(metaPayload) },
+      { key: `top10_meta_latest_${type}`, value: JSON.stringify(metaPayload) },
+    ];
+    await supabase.from("site_settings").upsert(metaRows, { onConflict: "key" });
+  } catch {
+    // Non bloquant si problème temporaire
+  }
+
   revalidatePath("/");
   revalidatePath("/top-10-france");
   revalidatePath("/admin/top-10");
@@ -1510,16 +1570,256 @@ export async function saveTop10SectionConfigAction(formData: FormData) {
     limit: 5,
   };
 
-  const supabase = await createClient();
   const rows = [
     { key: "top10_section_config", value: JSON.stringify(payload) },
   ];
 
-  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
 
   revalidatePath("/");
   revalidatePath("/admin/top-10");
   return { success: true };
+}
+
+export async function saveMoreNewsSectionConfigAction(formData: FormData) {
+  await requireAdmin();
+  const sectionTitle = (formData.get("section_title") as string) ?? "Encore plus d'actualités";
+  const newsletterTitle = (formData.get("newsletter_title") as string) ?? "Restez au cœur de l'actualité Max";
+  const newsletterSubtitle = (formData.get("newsletter_subtitle") as string) ?? "Recevez en avant-première les sorties, bandes-annonces et exclusivités du catalogue HBO Max.";
+  const sidebarTitle = (formData.get("sidebar_title") as string) ?? "À ne pas manquer";
+
+  const payload = {
+    section_title: sectionTitle.trim(),
+    newsletter_title: newsletterTitle.trim(),
+    newsletter_subtitle: newsletterSubtitle.trim(),
+    sidebar_title: sidebarTitle.trim(),
+  };
+
+  const rows = [
+    { key: "more_news_section_config", value: JSON.stringify(payload) },
+  ];
+
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/reglages");
+  redirectWithAdminMessage("/admin/reglages", "Section « Encore plus d'actualités » mise à jour avec succès.");
+}
+
+export async function saveNewAndUpcomingSectionConfigAction(formData: FormData) {
+  await requireAdmin();
+  const sectionTitle = (formData.get("section_title") as string) ?? "Nouveautés & À venir sur HBO Max";
+  const sectionSubtitle = (formData.get("section_subtitle") as string) ?? "Découvrez tout ce qui arrive sur HBO Max cette semaine, la semaine prochaine et toutes les nouveautés à ne pas manquer.";
+  const buttonText = (formData.get("button_text") as string) ?? "Voir tout ce qui arrive";
+  const buttonLink = (formData.get("button_link") as string) ?? "/nouveautes";
+  const weekCount = Number(formData.get("week_count")) || 30;
+  const weekLabel = (formData.get("week_label") as string) ?? "Nouveautés de la semaine";
+  const seriesCount = Number(formData.get("series_count")) || 30;
+  const seriesLabel = (formData.get("series_label") as string) ?? "Nouvelles séries en septembre";
+  const moviesCount = Number(formData.get("movies_count")) || 30;
+  const moviesLabel = (formData.get("movies_label") as string) ?? "Nouveaux films en septembre";
+
+  const payload = {
+    section_title: sectionTitle.trim(),
+    section_subtitle: sectionSubtitle.trim(),
+    button_text: buttonText.trim(),
+    button_link: buttonLink.trim(),
+    week_count: weekCount,
+    week_label: weekLabel.trim(),
+    series_count: seriesCount,
+    series_label: seriesLabel.trim(),
+    movies_count: moviesCount,
+    movies_label: moviesLabel.trim(),
+  };
+
+  const rows = [
+    { key: "new_and_upcoming_section_config", value: JSON.stringify(payload) },
+  ];
+
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/reglages");
+  redirectWithAdminMessage("/admin/reglages", "Section « Nouveautés & À venir » mise à jour avec succès.");
+}
+
+export async function saveSportsSectionConfigAction(formData: FormData) {
+  await requireAdmin();
+  const sectionTitle = (formData.get("section_title") as string) ?? "Événements sportifs en direct sur HBO Max";
+  const sectionSubtitle = (formData.get("section_subtitle") as string) ?? "Découvrez les événements sportifs à venir en direct avec Eurosport sur HBO Max.";
+  const buttonText = (formData.get("button_text") as string) ?? "Voir tout le sport";
+  const buttonLink = (formData.get("button_link") as string) ?? "/actualites?sport=1";
+  const backgroundUrl = (formData.get("background_url") as string) ?? "https://beam-images.warnermediacdn.com/2024-03/max-sports_background-1920x1080.jpg?host=wbd-dotcom-drupal-prd-us-east-1.s3.amazonaws.com";
+
+  let featuredEvents = [];
+  const eventsJson = formData.get("events_json") as string;
+  if (eventsJson) {
+    try {
+      featuredEvents = JSON.parse(eventsJson);
+    } catch {
+      // fallback
+    }
+  }
+
+  if (!featuredEvents || featuredEvents.length === 0) {
+    for (let i = 0; i < 5; i++) {
+      const title = (formData.get(`event_${i}_title`) as string)?.trim();
+      if (title) {
+        featuredEvents.push({
+          id: (formData.get(`event_${i}_id`) as string)?.trim() || `event-${i}`,
+          title,
+          subtitle: (formData.get(`event_${i}_subtitle`) as string)?.trim() || "",
+          event_time: (formData.get(`event_${i}_time`) as string)?.trim() || "",
+          tag: (formData.get(`event_${i}_tag`) as string)?.trim() || "SPORT",
+          countdown_text: (formData.get(`event_${i}_countdown`) as string)?.trim() || "",
+          synopsis: (formData.get(`event_${i}_synopsis`) as string)?.trim() || "",
+          image_url: (formData.get(`event_${i}_image`) as string)?.trim() || "",
+          link_url: (formData.get(`event_${i}_link`) as string)?.trim() || "/actualites",
+          is_live: formData.get(`event_${i}_is_live`) === "on",
+        });
+      }
+    }
+  }
+
+  let compactEvents = [];
+  const compactJson = formData.get("compact_events_json") as string;
+  if (compactJson) {
+    try {
+      compactEvents = JSON.parse(compactJson);
+    } catch {
+      // fallback
+    }
+  }
+
+  if (!compactEvents || compactEvents.length === 0) {
+    for (let i = 0; i < 50; i++) {
+      const title = (formData.get(`compact_${i}_title`) as string)?.trim();
+      if (title) {
+        compactEvents.push({
+          id: (formData.get(`compact_${i}_id`) as string)?.trim() || `compact-${i}`,
+          recurrence: (formData.get(`compact_${i}_recurrence`) as string)?.trim() || "",
+          title,
+          subtitle: (formData.get(`compact_${i}_subtitle`) as string)?.trim() || "",
+          event_time: (formData.get(`compact_${i}_time`) as string)?.trim() || "",
+          countdown_text: (formData.get(`compact_${i}_countdown`) as string)?.trim() || "",
+          image_url: (formData.get(`compact_${i}_image`) as string)?.trim() || "",
+          link_url: (formData.get(`compact_${i}_link`) as string)?.trim() || "/actualites",
+          is_live: formData.get(`compact_${i}_is_live`) === "on",
+        });
+      }
+    }
+  }
+
+  const payload = {
+    section_title: sectionTitle.trim(),
+    section_subtitle: sectionSubtitle.trim(),
+    button_text: buttonText.trim(),
+    button_link: buttonLink.trim(),
+    background_url: backgroundUrl.trim(),
+    featured_events: featuredEvents,
+    compact_events: compactEvents,
+  };
+
+  const rows = [
+    { key: "sports_section_config", value: JSON.stringify(payload) },
+  ];
+
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/reglages");
+  redirectWithAdminMessage("/admin/reglages", "Section « Événements sportifs en direct » mise à jour avec succès.");
+}
+
+export async function saveUpcomingEpisodesSectionConfigAction(formData: FormData) {
+  await requireAdmin();
+  const sectionTitle = (formData.get("section_title") as string) ?? "Prochainement sur HBO Max";
+  const sectionSubtitle = (formData.get("section_subtitle") as string) ?? "Découvrez les nouveaux épisodes de la semaine, les horaires de diffusion et toutes les sorties à ne pas manquer sur HBO Max.";
+  const buttonText = (formData.get("button_text") as string) ?? "Voir tout le calendrier";
+  const buttonLink = (formData.get("button_link") as string) ?? "/prochainement";
+  const backgroundUrl = (formData.get("background_url") as string) ?? "https://i.ibb.co/GfJ3GBvY/Bandes-diagonales-abstraites-bleu-nuit.png";
+
+  let featuredEpisodes = [];
+  const featuredJson = formData.get("featured_episodes_json") as string;
+  if (featuredJson) {
+    try {
+      featuredEpisodes = JSON.parse(featuredJson);
+    } catch {
+      // fallback
+    }
+  }
+
+  if (!featuredEpisodes || featuredEpisodes.length === 0) {
+    for (let i = 0; i < 5; i++) {
+      const series_title = (formData.get(`featured_${i}_series_title`) as string)?.trim();
+      if (series_title) {
+        featuredEpisodes.push({
+          id: (formData.get(`featured_${i}_id`) as string)?.trim() || `ep-${i}`,
+          series_title,
+          episode_number: (formData.get(`featured_${i}_episode_number`) as string)?.trim() || "Épisode 1",
+          episode_title: (formData.get(`featured_${i}_episode_title`) as string)?.trim() || "",
+          release_day: (formData.get(`featured_${i}_release_day`) as string)?.trim() || "Tous les lundis",
+          release_time: (formData.get(`featured_${i}_release_time`) as string)?.trim() || "03h00",
+          tag: (formData.get(`featured_${i}_tag`) as string)?.trim() || "HBO ORIGINAL",
+          countdown_text: (formData.get(`featured_${i}_countdown`) as string)?.trim() || "",
+          synopsis: (formData.get(`featured_${i}_synopsis`) as string)?.trim() || "",
+          image_url: (formData.get(`featured_${i}_image`) as string)?.trim() || "",
+          link_url: (formData.get(`featured_${i}_link`) as string)?.trim() || "/prochainement",
+          is_new: formData.get(`featured_${i}_is_new`) === "on",
+        });
+      }
+    }
+  }
+
+  let compactEpisodes = [];
+  const compactJson = formData.get("compact_episodes_json") as string;
+  if (compactJson) {
+    try {
+      compactEpisodes = JSON.parse(compactJson);
+    } catch {
+      // fallback
+    }
+  }
+
+  if (!compactEpisodes || compactEpisodes.length === 0) {
+    for (let i = 0; i < 30; i++) {
+      const series_title = (formData.get(`compact_${i}_series_title`) as string)?.trim();
+      if (series_title) {
+        compactEpisodes.push({
+          id: (formData.get(`compact_${i}_id`) as string)?.trim() || `c-ep-${i}`,
+          recurrence: (formData.get(`compact_${i}_recurrence`) as string)?.trim() || "TOUS LES LUNDIS",
+          series_title,
+          episode_number: (formData.get(`compact_${i}_episode_number`) as string)?.trim() || "Épisode 1",
+          episode_title: (formData.get(`compact_${i}_episode_title`) as string)?.trim() || "",
+          release_time: (formData.get(`compact_${i}_time`) as string)?.trim() || "03h00",
+          countdown_text: (formData.get(`compact_${i}_countdown`) as string)?.trim() || "",
+          image_url: (formData.get(`compact_${i}_image`) as string)?.trim() || "",
+          link_url: (formData.get(`compact_${i}_link`) as string)?.trim() || "/prochainement",
+          is_new: formData.get(`compact_${i}_is_new`) === "on",
+        });
+      }
+    }
+  }
+
+  const payload = {
+    section_title: sectionTitle.trim(),
+    section_subtitle: sectionSubtitle.trim(),
+    button_text: buttonText.trim(),
+    button_link: buttonLink.trim(),
+    background_url: backgroundUrl.trim(),
+    ...(featuredEpisodes.length > 0 ? { featured_episodes: featuredEpisodes } : {}),
+    ...(compactEpisodes.length > 0 ? { compact_episodes: compactEpisodes } : {}),
+  };
+
+  const rows = [
+    { key: "upcoming_episodes_section_config", value: JSON.stringify(payload) },
+  ];
+
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
+
+  revalidatePath("/");
+  revalidatePath("/admin/reglages");
+  redirectWithAdminMessage("/admin/reglages", "Section « Prochainement sur HBO Max » mise à jour avec succès.");
 }
 
 export async function prepareNewsDraft(formData: FormData) {
@@ -1772,16 +2072,15 @@ export async function fetchSeriesPosterForAdmin(queryOrId: string): Promise<{ ti
 
 export async function saveUpcomingSeriesBannerAction(formData: FormData) {
   await requireAdmin();
-  const title = text(formData, "banner_title") || "À venir en 2027";
+  const title = text(formData, "banner_title") || "À venir en 2026";
   const cardsJson = text(formData, "cards_json") || "[]";
 
-  const supabase = await createClient();
   const rows = [
     { key: "upcoming_series_banner_title", value: title },
     { key: "upcoming_series_banner_items", value: cardsJson }
   ];
 
-  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
 
   revalidatePath("/");
   revalidatePath("/admin/prochainement");
@@ -1793,14 +2092,97 @@ export async function saveTrailersBannerAction(formData: FormData) {
   await requireAdmin();
   const configJson = text(formData, "config_json") || "{}";
 
-  const supabase = await createClient();
   const rows = [
     { key: "trailers_banner_config", value: configJson }
   ];
 
-  await supabase.from("site_settings").upsert(rows, { onConflict: "key" });
+  await supabaseAdmin.from("site_settings").upsert(rows, { onConflict: "key" });
 
   revalidatePath("/");
   revalidatePath("/admin/bandes-annonces");
   return { success: true };
 }
+
+export async function saveAuthorProfileAction(formData: FormData) {
+  // Accessible to admin or author
+  const authorId = text(formData, "author_id");
+  const authorSlug = text(formData, "author_slug");
+  const bannerUrl = text(formData, "banner_url");
+  const bannerTitle = text(formData, "banner_title");
+  const bio = text(formData, "bio");
+  const avatarUrl = text(formData, "avatar_url");
+  const twitter = text(formData, "twitter");
+  const instagram = text(formData, "instagram");
+  const facebook = text(formData, "facebook");
+  const youtube = text(formData, "youtube");
+
+  if (!authorId && !authorSlug) {
+    return { error: "Identifiant auteur manquant" };
+  }
+
+  try {
+    // 1. Charger la config actuelle
+    const { data } = await supabaseAdmin
+      .from("site_settings")
+      .select("value")
+      .eq("key", "authors_section_config")
+      .maybeSingle();
+
+    let items: any[] = [];
+    let sectionTitle = "Nos auteurs";
+
+    if (data?.value) {
+      try {
+        const parsed = JSON.parse(data.value);
+        sectionTitle = parsed.section_title || sectionTitle;
+        items = Array.isArray(parsed.items) ? parsed.items : [];
+      } catch {
+        // ignore
+      }
+    }
+
+    if (items.length === 0) {
+      const { defaultAuthors } = await import("@/lib/authors-config");
+      items = [...defaultAuthors];
+    }
+
+    // 2. Trouver et mettre à jour l'auteur
+    const targetIdx = items.findIndex(
+      (a) => a.id === authorId || a.slug === authorSlug
+    );
+
+    if (targetIdx !== -1) {
+      items[targetIdx] = {
+        ...items[targetIdx],
+        banner_url: bannerUrl || items[targetIdx].banner_url,
+        banner_title: bannerTitle || items[targetIdx].banner_title,
+        bio: bio !== null && bio !== undefined ? bio : items[targetIdx].bio,
+        avatar_url: avatarUrl || items[targetIdx].avatar_url,
+        socials: {
+          ...(items[targetIdx].socials || {}),
+          twitter: twitter || null,
+          instagram: instagram || null,
+          facebook: facebook || null,
+          youtube: youtube || null,
+        },
+      };
+    }
+
+    await supabaseAdmin.from("site_settings").upsert(
+      [
+        {
+          key: "authors_section_config",
+          value: JSON.stringify({ section_title: sectionTitle, items }),
+        },
+      ],
+      { onConflict: "key" }
+    );
+
+    revalidatePath("/");
+    if (authorSlug) revalidatePath(`/auteurs/${authorSlug}`);
+    return { success: true };
+  } catch (err: any) {
+    return { error: err.message || "Erreur sauvegarde" };
+  }
+}
+

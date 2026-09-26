@@ -8,6 +8,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { ArticleVideoPlayer } from "@/components/ArticleVideoPlayer";
 import { ArticleContent } from "@/components/ArticleContent";
 import { Article } from "@/lib/types";
+import { findAuthorByName } from "@/lib/authors-config";
 
 export const revalidate = 60;
 
@@ -93,6 +94,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
   const firstFiveWords = getFirstFiveWords(article.title);
   const formattedDate = formatDate(article.published_at || article.created_at);
   const authorName = article.author_name || "Allan";
+  const authorInfo = findAuthorByName(authorName);
 
   return (
     <main className="min-h-screen bg-[#f5f6f8]">
@@ -186,20 +188,39 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
 
             {/* Fin de l'article : Signature Auteur & Appel à rejoindre le compte X */}
             <div className="mt-14 pt-8 border-t border-neutral-300">
-              {/* Nom de la personne qui a écrit l'article */}
-              <div className="flex items-center gap-3.5 mb-7">
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-neutral-950 text-white font-extrabold text-base select-none">
-                  {authorName.charAt(0).toUpperCase()}
+              {/* Nom de la personne qui a écrit l'article : Écrit par... (Lien vers sa page auteur) */}
+              <Link
+                href={`/auteurs/${authorInfo?.slug || (authorInfo ? authorInfo.id : "allan")}`}
+                className="group flex items-center justify-between gap-4 mb-7 p-4 sm:p-5 bg-white hover:bg-neutral-50 border border-neutral-200/90 shadow-sm transition-all duration-200"
+              >
+                <div className="flex items-center gap-4 min-w-0">
+                  <div className="relative h-13 w-13 sm:h-14 sm:w-14 shrink-0 overflow-hidden rounded-full bg-neutral-200 border-2 border-neutral-300 shadow-inner group-hover:scale-105 transition-transform">
+                    {authorInfo?.avatar_url ? (
+                      <img
+                        src={authorInfo.avatar_url}
+                        alt={authorName}
+                        className="h-full w-full object-cover"
+                      />
+                    ) : (
+                      <div className="flex h-full w-full items-center justify-center bg-gradient-to-tr from-[#0e171f] to-[#3a4b5d] text-white font-extrabold text-base select-none">
+                        {authorName.charAt(0).toUpperCase()}
+                      </div>
+                    )}
+                  </div>
+                  <div className="min-w-0">
+                    <span className="block text-xs uppercase tracking-wider text-neutral-500 font-bold">
+                      Écrit par
+                    </span>
+                    <span className="block text-lg sm:text-xl font-extrabold text-neutral-950 truncate group-hover:text-[#778b9d] transition-colors">
+                      {authorName}
+                    </span>
+                  </div>
                 </div>
-                <div>
-                  <span className="block text-xs uppercase tracking-wider text-neutral-500 font-semibold">
-                    Article rédigé par
-                  </span>
-                  <span className="block text-lg font-extrabold text-neutral-950">
-                    {authorName}
-                  </span>
-                </div>
-              </div>
+
+                <span className="hidden sm:inline-flex items-center gap-1 text-xs font-bold text-neutral-500 group-hover:text-neutral-900 transition-colors">
+                  Voir le profil →
+                </span>
+              </Link>
 
               {/* Bloc Retrouvez-nous sur X */}
               <div className="relative overflow-hidden rounded-none bg-neutral-950 p-6 sm:p-7 text-white shadow-sm">

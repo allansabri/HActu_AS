@@ -4,6 +4,7 @@ import { ArticleForm } from "@/components/admin/ArticleForm";
 import { requireAdmin } from "@/lib/auth";
 import { createClient } from "@/lib/supabase-server";
 import { Article } from "@/lib/types";
+import { parseArticleMetadata } from "@/lib/queries";
 
 export default async function EditArticlePage({ params }: { params: Promise<{ id: string }> }) {
   const { id } = await params;
@@ -12,9 +13,11 @@ export default async function EditArticlePage({ params }: { params: Promise<{ id
   const { data } = await supabase.from("articles").select("*").eq("id", id).single();
   if (!data) notFound();
 
+  const article = parseArticleMetadata(data as Article);
+
   return (
     <AdminShell title="Modifier l'article" subtitle="Contenu, statut, SEO, image et contenu lié." userLabel={user.email?.split("@")[0] || "Admin"}>
-      <ArticleForm article={data as Article} />
+      <ArticleForm article={article} />
     </AdminShell>
   );
 }

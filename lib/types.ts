@@ -87,6 +87,11 @@ export type Top10Item = {
   title: string;
   image_url: string | null;
   created_at: string;
+  days_in_top?: number;
+  previous_rank?: number | null;
+  rank_diff?: number | null;
+  is_new?: boolean;
+  days_in_top_1?: number;
 };
 
 export type AdminMediaItem = {

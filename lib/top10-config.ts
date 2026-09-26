@@ -1,4 +1,4 @@
-import { supabasePublic } from "@/lib/supabase-public";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export interface Top10Config {
   section_title: string;
@@ -16,7 +16,7 @@ export const defaultTop10Config: Top10Config = {
 
 export async function getTop10Config(): Promise<Top10Config> {
   try {
-    const { data, error } = await supabasePublic
+    const { data, error } = await supabaseAdmin
       .from("site_settings")
       .select("value")
       .eq("key", "top10_section_config")

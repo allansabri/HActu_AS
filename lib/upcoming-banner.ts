@@ -1,5 +1,5 @@
 import { UpcomingSeriesBannerConfig, UpcomingSeriesCard } from "@/lib/types";
-import { supabasePublic } from "@/lib/supabase-public";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export const defaultUpcomingSeriesCards: UpcomingSeriesCard[] = [
   {
@@ -152,7 +152,7 @@ export const knownSeriesCatalog: Record<string, { title: string; poster_url: str
 
 export async function getUpcomingSeriesBanner(): Promise<UpcomingSeriesBannerConfig> {
   try {
-    const { data, error } = await supabasePublic
+    const { data, error } = await supabaseAdmin
       .from("site_settings")
       .select("key, value")
       .in("key", ["upcoming_series_banner_title", "upcoming_series_banner_items"]);

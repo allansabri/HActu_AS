@@ -12,7 +12,10 @@ const nextConfig = {
       { protocol: "https", hostname: "**.supabase.co" },
       { protocol: "https", hostname: "img.youtube.com" },
       { protocol: "https", hostname: "i.ytimg.com" },
-      { protocol: "https", hostname: "i.ibb.co" }
+      { protocol: "https", hostname: "i.ibb.co" },
+      { protocol: "https", hostname: "beam-images.warnermediacdn.com" },
+      { protocol: "https", hostname: "image.tmdb.org" },
+      { protocol: "https", hostname: "images.unsplash.com" }
     ]
   }
 };

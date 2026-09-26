@@ -1,4 +1,4 @@
-import { supabasePublic } from "@/lib/supabase-public";
+import { supabaseAdmin } from "@/lib/supabase-admin";
 
 export type VideoSourceType = "youtube" | "direct" | "hls";
 
@@ -158,7 +158,7 @@ export const defaultTrailersBannerConfig: TrailersBannerConfig = {
 
 export async function getTrailersBannerConfig(): Promise<TrailersBannerConfig> {
   try {
-    const { data, error } = await supabasePublic
+    const { data, error } = await supabaseAdmin
       .from("site_settings")
       .select("value")
       .eq("key", "trailers_banner_config")

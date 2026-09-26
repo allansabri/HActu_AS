@@ -5,7 +5,7 @@ import { getLatestArticles } from "@/lib/queries";
 
 export const revalidate = 60;
 
-type TabKey = "all" | "cinema" | "hbo" | "hbo-max" | "international";
+type TabKey = "all" | "cinema" | "series" | "hbo" | "hbo-max" | "international";
 
 interface TabItem {
   key: TabKey;
@@ -16,6 +16,7 @@ interface TabItem {
 const TABS: TabItem[] = [
   { key: "all", label: "Toutes les actualités", breadcrumb: "Toutes les actualités" },
   { key: "cinema", label: "Cinéma", breadcrumb: "Cinéma" },
+  { key: "series", label: "Séries", breadcrumb: "Séries" },
   { key: "hbo", label: "HBO", breadcrumb: "HBO" },
   { key: "hbo-max", label: "HBO Max", breadcrumb: "HBO Max" },
   { key: "international", label: "Programmes internationaux", breadcrumb: "Programmes internationaux" }
@@ -29,7 +30,7 @@ export default async function ActualitesPage({
   searchParams: Promise<{ tab?: string; category?: string; q?: string; page?: string }>;
 }) {
   const params = await searchParams;
-  const rawTab = (params.tab || "all").toLowerCase();
+  const rawTab = (params.tab || params.category || "all").toLowerCase();
   const currentTab: TabKey = TABS.some((t) => t.key === rawTab) ? (rawTab as TabKey) : "all";
   const activeTabConfig = TABS.find((t) => t.key === currentTab) || TABS[0];
 
@@ -42,28 +43,39 @@ export default async function ActualitesPage({
       const cat = (a.category || "").toLowerCase();
       const title = (a.title || "").toLowerCase();
       return (
-        cat.includes("cinéma") ||
+        cat.includes("ciné") ||
         cat.includes("cinema") ||
         cat.includes("films") ||
+        cat.includes("film") ||
         title.includes("cinéma") ||
         title.includes("cinema") ||
         title.includes("en salles") ||
         title.includes("film")
       );
     });
+  } else if (currentTab === "series") {
+    filtered = allArticles.filter((a) => {
+      const cat = (a.category || "").toLowerCase();
+      const title = (a.title || "").toLowerCase();
+      return (
+        cat.includes("série") ||
+        cat.includes("series") ||
+        title.includes("série") ||
+        title.includes("series") ||
+        title.includes("saison")
+      );
+    });
   } else if (currentTab === "hbo") {
     filtered = allArticles.filter((a) => {
       const cat = (a.category || "").toLowerCase();
       const title = (a.title || "").toLowerCase();
-      const isHBO = cat === "hbo" || cat.includes("hbo original") || title.includes("hbo");
-      const isMax = cat.includes("max") || title.includes("hbo max");
-      return isHBO && !isMax;
+      return cat.includes("hbo") || title.includes("hbo");
     });
   } else if (currentTab === "hbo-max") {
     filtered = allArticles.filter((a) => {
       const cat = (a.category || "").toLowerCase();
       const title = (a.title || "").toLowerCase();
-      return cat.includes("max") || title.includes("hbo max") || title.includes("max originale");
+      return cat.includes("max") || title.includes("max");
     });
   } else if (currentTab === "international") {
     filtered = allArticles.filter((a) => {

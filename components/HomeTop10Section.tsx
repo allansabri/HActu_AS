@@ -6,26 +6,66 @@ import { ChevronRight } from "lucide-react";
 
 interface HomeTop10SectionProps {
   items: Top10Item[];
-  config?: Top10Config;
+  config?: Top10Config | null;
 }
 
-function Top10Column({
-  subtitle,
-  type,
-  items,
-}: {
+interface Top10ColumnProps {
   subtitle: string;
   type: ContentType;
   items: Top10Item[];
-}) {
-  // Top 5 éléments
+}
+
+function ItemRankStats({ item, isTop1 }: { item: Top10Item; isTop1?: boolean }) {
+  const days = item.days_in_top ?? 1;
+  const diff = item.rank_diff;
+  const isNew = item.is_new;
+
+  // Mention demandée : si descend en top 2, mettre -1 en rouge avec la mention "7j dans le top 1"
+  let daysText = `${days}J dans le top`;
+  if (item.rank > 1 && item.days_in_top_1 && item.days_in_top_1 > 0) {
+    daysText = `${item.days_in_top_1}j dans le top 1`;
+  }
+
+  return (
+    <div className={`flex items-center gap-1.5 flex-wrap ${isTop1 ? "mt-1.5 text-xs" : "mt-0.5 text-[11px] sm:text-xs"}`}>
+      {/* Indicateur de position : Nouveau, -1 (rouge), +1 (vert), = (neutre) */}
+      {isNew ? (
+        <span className="font-extrabold text-max-cyan text-[10px] uppercase tracking-wide bg-max-cyan/15 px-1 py-0.2 rounded">
+          Nouveau
+        </span>
+      ) : diff !== undefined && diff !== null ? (
+        diff < 0 ? (
+          <span className="font-extrabold text-red-400 flex items-center gap-0.5">
+            <span className="text-[9px]">▼</span> {diff}
+          </span>
+        ) : diff > 0 ? (
+          <span className="font-extrabold text-emerald-400 flex items-center gap-0.5">
+            <span className="text-[9px]">▲</span> +{diff}
+          </span>
+        ) : (
+          <span className="font-bold text-white/40" title="Position stable">
+            =
+          </span>
+        )
+      ) : null}
+
+      {/* Texte en vert (ex: 7J dans le top, ou 7j dans le top 1) */}
+      <span className="font-semibold text-emerald-400">
+        {daysText}
+      </span>
+    </div>
+  );
+}
+
+function Top10Column({ subtitle, type, items }: Top10ColumnProps) {
+  // Récupération des 5 premiers éléments (Top 1 mis en avant + Top 2 à 5)
   const rows = items
     .filter((item) => item.type === type)
     .sort((a, b) => a.rank - b.rank)
     .slice(0, 5);
 
   const top1 = rows[0];
-  const others = rows.slice(1);
+  const others = rows.slice(1, 5);
 
   return (
     <div className="flex flex-col">
@@ -69,11 +109,12 @@ function Top10Column({
               )}
             </div>
 
-            {/* Titre uniquement */}
+            {/* Titre et indicateurs (vert 7J dans le top, etc.) */}
             <div className="min-w-0 flex-1">
               <h4 className="text-sm sm:text-base md:text-lg font-bold leading-snug text-white group-hover:text-[#a5abb2] transition-colors duration-200 line-clamp-2">
                 {top1.title}
               </h4>
+              <ItemRankStats item={top1} isTop1={true} />
             </div>
           </Link>
         )}
@@ -110,11 +151,12 @@ function Top10Column({
                   )}
                 </div>
 
-                {/* Titre uniquement */}
+                {/* Titre et indicateurs (rouge -1, vert +1, vert 7J dans le top) */}
                 <div className="min-w-0 flex-1">
                   <h5 className="text-xs sm:text-[13px] md:text-sm font-semibold leading-tight text-white group-hover:text-[#a5abb2] transition-colors duration-200 line-clamp-2">
                     {item.title}
                   </h5>
+                  <ItemRankStats item={item} isTop1={false} />
                 </div>
               </Link>
             ))}

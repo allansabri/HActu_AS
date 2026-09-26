@@ -38,7 +38,30 @@ function Top10List({ title, type, items }: { title: string; type: ContentType; i
               )}
               <div className="min-w-0 flex-1">
                 <p className="text-base font-bold leading-tight group-hover:text-white">{item.title}</p>
-                <p className="mt-0.5 text-xs text-white/45">Position {item.rank} • Mis à jour aujourd’hui</p>
+                <div className="mt-1 flex items-center gap-2 text-xs">
+                  {item.is_new ? (
+                    <span className="font-bold text-max-cyan text-[10px] uppercase bg-max-cyan/15 px-1.5 py-0.5 rounded">
+                      Nouveau
+                    </span>
+                  ) : item.rank_diff !== undefined && item.rank_diff !== null ? (
+                    item.rank_diff < 0 ? (
+                      <span className="font-extrabold text-red-400 flex items-center gap-0.5">
+                        <span>▼</span> {item.rank_diff}
+                      </span>
+                    ) : item.rank_diff > 0 ? (
+                      <span className="font-extrabold text-emerald-400 flex items-center gap-0.5">
+                        <span>▲</span> +{item.rank_diff}
+                      </span>
+                    ) : (
+                      <span className="font-bold text-white/40">=</span>
+                    )
+                  ) : null}
+                  <span className="font-semibold text-emerald-400">
+                    {item.rank > 1 && item.days_in_top_1 && item.days_in_top_1 > 0
+                      ? `${item.days_in_top_1}j dans le top 1`
+                      : `${item.days_in_top || 1}J dans le top`}
+                  </span>
+                </div>
               </div>
               <span className="ml-auto text-xs font-bold text-max-cyan opacity-70 transition group-hover:opacity-100">Voir →</span>
             </Link>
