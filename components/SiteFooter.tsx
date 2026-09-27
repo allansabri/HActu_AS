@@ -24,10 +24,12 @@ const columns = [
   {
     title: "Informations",
     links: [
-      ["Mentions légales", "/mentions-legales"],
-      ["Confidentialité", "/confidentialite"],
+      ["À propos & contact", "/a-propos"],
+      ["Nos auteurs", "/auteurs"],
+      ["Politique éditoriale", "/politique-editoriale"],
+      ["Confidentialité & DMCA", "/politique-confidentialite-dmca"],
+      ["Politique de cookies", "/politique-cookies"],
       ["FAQ", "/faq"],
-      ["Contact", "/contact"],
       ["Admin", "/admin"]
     ]
   }

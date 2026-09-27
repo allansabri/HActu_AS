@@ -4,6 +4,8 @@ import { AdminCollection, Article, ProductionProject, Top10Item } from "@/lib/ty
 import { todayIso } from "@/lib/format";
 import { demoArticles, demoCollections, demoProductions, demoTop10 } from "@/lib/demo-data";
 
+import { defaultAuthors } from "@/lib/authors-config";
+
 export function parseArticleMetadata(article: Article): Article {
   let authorName = article.author_name;
   if (!authorName && article.related_content) {
@@ -17,6 +19,32 @@ export function parseArticleMetadata(article: Article): Article {
       } catch {}
     }
   }
+
+  // Si non renseigné, vérifier si cet article est attribué à un auteur spécifique
+  if (!authorName) {
+    const artSlug = (article.slug || "").toLowerCase();
+    const artTitle = (article.title || "").toLowerCase();
+
+    const matchedAuthor = defaultAuthors.find((a) => {
+      if (article.author_id && (a.id === article.author_id || a.slug === article.author_id)) return true;
+      if (a.recent_article_url) {
+        const cleanUrlSlug = a.recent_article_url.replace("/actualites/", "").toLowerCase();
+        if (cleanUrlSlug === artSlug || cleanUrlSlug.includes(artSlug) || artSlug.includes(cleanUrlSlug)) return true;
+      }
+      if (a.recent_article_title) {
+        const cleanAuthorTitle = a.recent_article_title.toLowerCase().trim();
+        if (cleanAuthorTitle === artTitle) return true;
+        // Correspondance sur le sujet principal entre guillemets ex: « THE PENGUIN »
+        const matchQuote = cleanAuthorTitle.match(/«\s*([^»]+)\s*»/);
+        if (matchQuote && artTitle.includes(matchQuote[1])) return true;
+      }
+      return false;
+    });
+    if (matchedAuthor) {
+      authorName = matchedAuthor.name;
+    }
+  }
+
   return {
     ...article,
     author_name: authorName || "Allan",
@@ -36,7 +64,7 @@ export async function getLatestArticles(limit = 12) {
   const existingSlugs = new Set(dbArticles.map((a) => a.slug));
   const combined = [
     ...dbArticles,
-    ...demoArticles.filter((a) => !existingSlugs.has(a.slug)),
+    ...demoArticles.filter((a) => !existingSlugs.has(a.slug)).map(parseArticleMetadata),
   ];
 
   return combined.slice(0, limit);
@@ -55,7 +83,9 @@ export async function getArticleBySlug(slug: string) {
     .single();
 
   const found = data ? parseArticleMetadata(data as Article) : null;
-  return found || demoArticles.find((article) => article.slug === slug) || null;
+  if (found) return found;
+  const demoFound = demoArticles.find((article) => article.slug === slug);
+  return demoFound ? parseArticleMetadata(demoFound) : null;
 }
 
 export async function getArticlesByCategory(category?: string) {
@@ -82,7 +112,10 @@ export async function getArticlesByCategory(category?: string) {
       })
     : demoArticles;
 
-  return [...dbArticles, ...fallback.filter((a) => !existingSlugs.has(a.slug))];
+  return [
+    ...dbArticles,
+    ...fallback.filter((a) => !existingSlugs.has(a.slug)).map(parseArticleMetadata),
+  ];
 }
 
 export async function getCategories() {

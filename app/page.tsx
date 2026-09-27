@@ -14,6 +14,7 @@ import { UpcomingEpisodesSection } from "@/components/UpcomingEpisodesSection";
 import { ProductionsInProgressSection } from "@/components/ProductionsInProgressSection";
 import { SeriesReviewsSection } from "@/components/SeriesReviewsSection";
 import { AuthorsSection } from "@/components/AuthorsSection";
+import { HomeNewsletterSection } from "@/components/HomeNewsletterSection";
 import { formatDate, youtubeId } from "@/lib/format";
 import { titleHref } from "@/lib/links";
 import { getUpcomingSeriesBanner } from "@/lib/upcoming-banner";
@@ -588,6 +589,10 @@ export default async function HomePage({
           </div>
         </section>
       )}
+
+      {/* Section Newsletter finale en bas de page */}
+      <HomeNewsletterSection />
     </main>
   );
 }
+

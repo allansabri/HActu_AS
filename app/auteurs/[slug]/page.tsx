@@ -8,8 +8,7 @@ import {
   getAuthorsSectionConfig,
 } from "@/lib/authors-config";
 import { getLatestArticles } from "@/lib/queries";
-import { ArticleCard } from "@/components/ArticleCard";
-import { ReviewCard } from "@/components/SeriesReviewsSection";
+import { AuthorTabsContent } from "@/components/AuthorTabsContent";
 import { Article } from "@/lib/types";
 import { getSeriesReviewsConfig, SeriesReviewItem } from "@/lib/reviews-config";
 
@@ -87,12 +86,17 @@ function formatInscriptionDate(dateStr?: string | null): string {
   }
 }
 
+const ARTICLES_PER_PAGE = 8; // 2 rangées de 4 cartes
+
 export default async function AuthorProfilePage({
   params,
+  searchParams,
 }: {
   params: Promise<{ slug: string }>;
+  searchParams?: Promise<{ page?: string }>;
 }) {
   const { slug } = await params;
+  const sParams = (await searchParams) || {};
   const articles = await getLatestArticles(100);
   const authorsConfig = await getAuthorsSectionConfig(articles);
 
@@ -120,7 +124,25 @@ export default async function AuthorProfilePage({
     );
   });
 
-  // 2. Critiques rédigées par cet auteur
+  // Si l'auteur a un article récent associé dans sa configuration et qu'il n'est pas encore dans la liste
+  if (author.recent_article_title) {
+    const hasAlready = authorArticles.some(
+      (a) => a.title.toLowerCase() === author.recent_article_title?.toLowerCase()
+    );
+    if (!hasAlready) {
+      const fallbackArticle = (articles as Article[]).find(
+        (a: Article) =>
+          a.title.toLowerCase() === author.recent_article_title.toLowerCase() ||
+          (author.recent_article_url &&
+            author.recent_article_url.includes(a.slug))
+      );
+      if (fallbackArticle) {
+        authorArticles.unshift(fallbackArticle);
+      }
+    }
+  }
+
+  // 2. Critiques rédigées par cet auteur (distinctes, avec les mêmes cards que sur la page d'accueil)
   const reviewsConfig = await getSeriesReviewsConfig();
   const authorReviews = (reviewsConfig.items || []).filter((rev: SeriesReviewItem) => {
     const revAuthor = (rev.author_name || "").trim().toLowerCase();
@@ -131,53 +153,8 @@ export default async function AuthorProfilePage({
     );
   });
 
-  // 3. Fusion et tri chronologique de tous les items de l'auteur
-  type PublicationFeedItem =
-    | { type: "article"; date: string; article: Article }
-    | { type: "review"; date: string; review: SeriesReviewItem };
-
-  const allItems: PublicationFeedItem[] = [
-    ...authorArticles.map(
-      (a: Article) =>
-        ({
-          type: "article",
-          date: a.published_at || a.created_at,
-          article: a,
-        } as const)
-    ),
-    ...authorReviews.map(
-      (r: SeriesReviewItem) =>
-        ({
-          type: "review",
-          date: r.published_at,
-          review: r,
-        } as const)
-    ),
-  ].sort((a, b) => new Date(b.date).getTime() - new Date(a.date).getTime());
-
-  // Si l'auteur a peu de publications spécifiques, inclure son article récent pour qu'il soit bien mis en avant
-  if (allItems.length === 0 && author.recent_article_title) {
-    const fallbackArticle = (articles as Article[]).find(
-      (a: Article) =>
-        a.title.toLowerCase() === author.recent_article_title.toLowerCase() ||
-        (author.recent_article_url &&
-          author.recent_article_url.includes(a.slug))
-    );
-    if (fallbackArticle) {
-      allItems.push({
-        type: "article",
-        date: fallbackArticle.published_at || fallbackArticle.created_at,
-        article: fallbackArticle,
-      });
-    }
-  }
-
-  // 4 cartes en mise en avant principale (comme 'Les dernières actualités' de l'accueil)
-  const featuredItems = allItems.slice(0, 4);
-  const remainingItems = allItems.slice(4);
-
   const totalPublished = Math.max(
-    allItems.length,
+    authorArticles.length + authorReviews.length,
     author.total_articles || 1
   );
   const inscriptionFormatted = formatInscriptionDate(author.joined_date);
@@ -187,7 +164,7 @@ export default async function AuthorProfilePage({
 
   return (
     <main className="min-h-screen bg-[#090b0e] text-white">
-      {/* 1. Bannière de profil (inchangée) */}
+      {/* 1. Bannière de profil */}
       <div className="relative w-full h-44 sm:h-56 md:h-64 lg:h-72 bg-neutral-900 overflow-hidden border-b border-white/10">
         <img
           src={bannerImage}
@@ -198,11 +175,11 @@ export default async function AuthorProfilePage({
         <div className="absolute inset-0 bg-gradient-to-t from-[#090b0e] via-black/25 to-black/60" />
       </div>
 
-      {/* Conteneur principal de la page auteur */}
+      {/* Conteneur principal supérieur : Infos auteur */}
       <div className="mx-auto w-full max-w-[1300px] px-4 sm:px-6 md:px-8 lg:px-12">
-        {/* 2. En-tête profil : Seule la photo de profil déborde de la bannière. Le nom et les stats sont bien SOUS la bannière */}
+        {/* 2. En-tête profil : Photo de profil en rond + Nom et stats complètement sous la bannière */}
         <div className="relative z-20 pb-6 border-b border-white/10">
-          {/* Photo de profil agrandie (en rond pur) qui chevauche légèrement la bannière */}
+          {/* Photo de profil agrandie qui chevauche légèrement la bannière */}
           <div className="relative -mt-16 sm:-mt-20 md:-mt-22 mb-4">
             <div className="relative h-32 w-32 sm:h-40 sm:w-40 md:h-44 md:w-44 shrink-0 overflow-hidden rounded-full bg-neutral-900 shadow-2xl">
               {author.avatar_url ? (
@@ -219,7 +196,7 @@ export default async function AuthorProfilePage({
             </div>
           </div>
 
-          {/* Nom du profil, article publié et inscrit depuis le... TOTALEMENT sous la bannière */}
+          {/* Nom du profil, articles publiés et inscrit depuis le... TOTALEMENT sous la bannière */}
           <div className="flex flex-col">
             <h1 className="text-2xl sm:text-3xl md:text-4xl font-extrabold text-white tracking-tight leading-tight">
               {author.name}
@@ -243,7 +220,7 @@ export default async function AuthorProfilePage({
           </div>
         </div>
 
-        {/* 3. Section Bio & Réseaux sociaux sous la photo de profil (sans titre "À propos de l'auteur") */}
+        {/* 3. Section Bio & Réseaux sociaux sous la photo de profil */}
         <div className="py-6 border-b border-white/10 space-y-5">
           {/* Bio de l'auteur sans titre au-dessus */}
           <div>
@@ -335,74 +312,13 @@ export default async function AuthorProfilePage({
           </div>
         </div>
 
-        {/* 4. Section de mise en avant des derniers articles / critiques de l'auteur (même style que 'Les dernières actualités' de l'accueil) */}
-        <div className="py-8 space-y-6">
-          {featuredItems.length > 0 ? (
-            <div className="space-y-10">
-              {/* Grille principale de mise en avant : 4 cartes côte à côte (comme 'Les dernières actualités' de l'accueil) */}
-              <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                {featuredItems.map((item, index) => {
-                  if (item.type === "review") {
-                    return (
-                      <ReviewCard
-                        key={`review-${item.review.id || index}`}
-                        item={item.review}
-                        index={index}
-                      />
-                    );
-                  }
-                  return (
-                    <ArticleCard
-                      key={`article-${item.article.id || index}`}
-                      article={item.article}
-                      index={index}
-                      large={false}
-                    />
-                  );
-                })}
-              </div>
-
-              {/* Reste des publications si l'auteur a plus de 4 articles/critiques */}
-              {remainingItems.length > 0 && (
-                <div className="pt-6 border-t border-white/10 space-y-4">
-                  <div className="flex items-center justify-between">
-                    <span className="text-xs font-bold uppercase tracking-wider text-neutral-400">
-                      Autres publications de {author.name}
-                    </span>
-                    <span className="text-xs text-neutral-500 font-medium">
-                      {remainingItems.length} {remainingItems.length > 1 ? "articles" : "article"}
-                    </span>
-                  </div>
-
-                  <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-4">
-                    {remainingItems.map((item, index) => {
-                      if (item.type === "review") {
-                        return (
-                          <ReviewCard
-                            key={`rem-review-${item.review.id || index}`}
-                            item={item.review}
-                            index={index + 4}
-                          />
-                        );
-                      }
-                      return (
-                        <ArticleCard
-                          key={`rem-article-${item.article.id || index}`}
-                          article={item.article}
-                          index={index + 4}
-                          large={false}
-                        />
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-            </div>
-          ) : (
-            <div className="rounded-none border border-white/10 bg-white/[0.02] p-10 text-center text-sm text-neutral-400">
-              Aucun article ou critique publié pour le moment par cet auteur.
-            </div>
-          )}
+        {/* 4. Barre de catégories / onglets (Tous, Articles, Critiques) sous les réseaux sociaux avec soulignement blanc actif */}
+        <div className="pt-6 pb-12 sm:pb-16">
+          <AuthorTabsContent
+            authorName={author.name}
+            authorArticles={authorArticles}
+            authorReviews={authorReviews}
+          />
         </div>
       </div>
     </main>

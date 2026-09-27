@@ -29,6 +29,68 @@ export function SiteHeader() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[linear-gradient(to_right,#1c2a37_0%,#050a0a_25%,#050a0a_100%)] backdrop-blur-xl">
+      {/* Barre supérieure : Onglets d'information & transparence au-dessus du logo */}
+      <div className="border-b border-white/[0.07] bg-black/50 backdrop-blur-md text-[11px] sm:text-[12px] text-neutral-400">
+        <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-1 sm:py-1.5">
+          <nav
+            aria-label="Navigation secondaire institutionnelle"
+            className="flex items-center gap-3 sm:gap-4 lg:gap-5 overflow-x-auto no-scrollbar scroll-smooth whitespace-nowrap py-0.5"
+          >
+            <Link
+              href="/a-propos"
+              className="text-neutral-300 hover:text-white transition-colors duration-150 tracking-normal"
+            >
+              À propos & contact
+            </Link>
+            <span className="text-white/20 select-none" aria-hidden="true">•</span>
+            <Link
+              href="/auteurs"
+              className="text-neutral-300 hover:text-white transition-colors duration-150 tracking-normal"
+            >
+              Nos auteurs
+            </Link>
+            <span className="text-white/20 select-none" aria-hidden="true">•</span>
+            <Link
+              href="/politique-editoriale"
+              className="text-neutral-300 hover:text-white transition-colors duration-150 tracking-normal"
+            >
+              Politique éditoriale et de corrections
+            </Link>
+            <span className="text-white/20 select-none" aria-hidden="true">•</span>
+            <Link
+              href="/politique-confidentialite-dmca"
+              className="text-neutral-300 hover:text-white transition-colors duration-150 tracking-normal"
+            >
+              Politique de confidentialité & DMCA
+            </Link>
+            <span className="text-white/20 select-none" aria-hidden="true">•</span>
+            <Link
+              href="/politique-cookies"
+              className="text-neutral-300 hover:text-white transition-colors duration-150 tracking-normal"
+            >
+              Politique de confidentialité & cookies
+            </Link>
+          </nav>
+
+          {/* Lien direct communauté X */}
+          <div className="hidden md:flex items-center gap-2 text-[11px] shrink-0 pl-3">
+            <a
+              href="https://x.com/HBOMaxActuFR"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-1.5 text-neutral-400 hover:text-white transition-colors"
+              title="Compte X officiel HBO Max Actu (10,4k abonnés)"
+            >
+              <span className="text-neutral-400">X :</span>
+              <span className="font-semibold text-neutral-200">@HBOMaxActuFR</span>
+              <span className="rounded bg-white/10 px-1.5 py-0.5 text-[10px] font-bold text-neutral-300">
+                10,4k
+              </span>
+            </a>
+          </div>
+        </div>
+      </div>
+
       <div className="mx-auto flex w-full max-w-[1400px] items-center justify-between gap-4 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 py-2.5 sm:py-3">
         <div className="flex items-center gap-8 sm:gap-12 lg:gap-14">
           <Link href="/" className="shrink-0 flex items-center" aria-label="HBO Max Actu">

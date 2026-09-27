@@ -8,7 +8,7 @@ import { ArticleCard } from "@/components/ArticleCard";
 import { ArticleVideoPlayer } from "@/components/ArticleVideoPlayer";
 import { ArticleContent } from "@/components/ArticleContent";
 import { Article } from "@/lib/types";
-import { findAuthorByName } from "@/lib/authors-config";
+import { findAuthorByName, slugifyAuthor } from "@/lib/authors-config";
 
 export const revalidate = 60;
 
@@ -190,7 +190,7 @@ export default async function ArticlePage({ params }: { params: Promise<{ slug: 
             <div className="mt-14 pt-8 border-t border-neutral-300">
               {/* Nom de la personne qui a écrit l'article : Écrit par... (Lien vers sa page auteur) */}
               <Link
-                href={`/auteurs/${authorInfo?.slug || (authorInfo ? authorInfo.id : "allan")}`}
+                href={`/auteurs/${authorInfo?.slug || (authorName ? slugifyAuthor(authorName) : "allan")}`}
                 className="group flex items-center justify-between gap-4 mb-7 p-4 sm:p-5 bg-white hover:bg-neutral-50 border border-neutral-200/90 shadow-sm transition-all duration-200"
               >
                 <div className="flex items-center gap-4 min-w-0">
